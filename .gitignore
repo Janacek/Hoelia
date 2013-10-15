@@ -3,6 +3,9 @@ build
 Hoelia
 *.swp
 *.swo
+fonts
+graphics
+maps
 droid/bin
 droid/gen
 droid/libs
