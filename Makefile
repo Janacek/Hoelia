@@ -71,9 +71,9 @@ export NDK_PROJECT_PATH := $(CURDIR)/droid
 $(BUILD):
 	@[ -d $@ ] || mkdir -p $@
 	@make --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
-	@ln -rs droid/assets/graphics graphics
-	@ln -rs droid/assets/fonts fonts
-	@ln -rs droid/assets/maps maps
+	@ln -rsf droid/assets/graphics graphics
+	@ln -rsf droid/assets/fonts fonts
+	@ln -rsf droid/assets/maps maps
 
 #---------------------------------------------------------------------------------
 run:
