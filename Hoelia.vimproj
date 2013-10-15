@@ -1,0 +1,21 @@
+Hoelia=~/Projects/Hoelia CD=. filter=".gitignore *.c *.cpp *.h *.vim AUTHORS ChangeLog COPYING Makefile Notes TODO *.textile" {
+ .gitignore
+ AUTHORS
+ ChangeLog
+ COPYING
+ Makefile
+ Notes
+ TODO
+ README.textile
+ droid=droid {
+  jni=jni {
+   src=src {
+    include=include {
+	}
+	source=source {
+     main.cpp
+    }
+   }
+  }
+ }
+}

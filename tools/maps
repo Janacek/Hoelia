@@ -1,0 +1,6 @@
+#!/bin/bash
+
+for i in tmx/*.tmx;
+do echo ./tools/reader/reader $i droid/assets/maps/$(basename ${i%.tmx}).map; ./tools/reader/reader $i maps/$(basename ${i%.tmx}).map;
+done
+

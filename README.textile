@@ -1,0 +1,5 @@
+h1. Hoelia
+
+h3. By Deloptia ( see AUTHORS file )
+
+* Hoelia is a RPG game for PC and Android made with SDL 2.0.

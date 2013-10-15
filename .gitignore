@@ -1,0 +1,10 @@
+build
+*~
+Hoelia
+*.swp
+*.swo
+droid/bin
+droid/gen
+droid/libs
+droid/obj
+droid/other
