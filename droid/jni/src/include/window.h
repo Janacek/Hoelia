@@ -25,11 +25,13 @@ class Window {
 		Window(const char *caption, u16 width, u16 height);
 		~Window();
 		
-		// Clear display
+		// Clear render
 		void clear();
 		
-		// Update display
+		// Update render
 		void update();
+		
+		SDL_Renderer *renderer() { return m_renderer; }
 		
 		// Game main window
 		static Window *main;

@@ -13,6 +13,7 @@ Hoelia=~/Projects/Hoelia CD=. filter=".gitignore *.c *.cpp *.h *.vim AUTHORS Cha
     include=include {
 	 config.h
 	 game.h
+	 image.h
 	 init.h
 	 SDL_headers.h
 	 types.h
@@ -20,6 +21,7 @@ Hoelia=~/Projects/Hoelia CD=. filter=".gitignore *.c *.cpp *.h *.vim AUTHORS Cha
 	}
 	source=source {
      game.cpp
+	 image.cpp
 	 init.cpp
 	 main.cpp
 	 window.cpp

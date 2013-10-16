@@ -17,41 +17,36 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	
 ---------------------------------------------------------------------------------*/
-#include "SDL_headers.h"
+#ifndef IMAGE_H
+#define IMAGE_H
 
-#include "types.h"
-#include "window.h"
-#include "image.h"
-#include "game.h"
-
-Game::Game() {
-	m_continue = true;
-	m_paused = false;
-	
-	// Initialize game main window
-	Window::main = new Window("Hoelia", 640, 480);
-}
-
-Game::~Game() {
-	delete Window::main;
-}
-
-void Game::mainLoop() {
-	while(m_continue) {
-		// Process events
-		SDL_Event event;
-		while(SDL_PollEvent(&event) != 0) {
-			switch(event.type) {
-				case SDL_QUIT:
-					m_continue = false;
-					break;
-				default:
-					break;
-			}
-		}
+class Image {
+	public:
+		Image(const char *filename);
+		~Image();
 		
-		// Update render
-		Window::main->update();
-	}
-}
+		void render();
+		
+		// Set position
+		void setPosRect(s16 x, s16 y, u16 w, u16 h);
+		
+		// Set clip rect
+		void setClipRect(s16 x, s16 y, u16 w, u16 h);
+		
+	private:
+		// Image size
+		u16 m_width;
+		u16 m_height;
+		
+		// Surface object
+		SDL_Surface *m_surface;
+		
+		// Texture object
+		SDL_Texture *m_texture;
+		
+		// SDL rects
+		SDL_Rect m_clipRect;
+		SDL_Rect m_posRect;
+};
 
+#endif // IMAGE_H
