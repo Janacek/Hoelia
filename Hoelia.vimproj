@@ -16,6 +16,7 @@ Hoelia=~/Projects/Hoelia CD=. filter=".gitignore *.c *.cpp *.h *.vim AUTHORS Cha
 	 image.h
 	 init.h
 	 SDL_headers.h
+	 timer.h
 	 types.h
 	 window.h
 	}
@@ -24,6 +25,7 @@ Hoelia=~/Projects/Hoelia CD=. filter=".gitignore *.c *.cpp *.h *.vim AUTHORS Cha
 	 image.cpp
 	 init.cpp
 	 main.cpp
+	 timer.cpp
 	 window.cpp
     }
    }
