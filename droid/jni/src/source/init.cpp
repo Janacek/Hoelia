@@ -17,25 +17,38 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	
 ---------------------------------------------------------------------------------*/
-#include "init.h"
-#include "game.h"
+#include "SDL_headers.h"
 
-int main(int argc, char* argv[]) {
+#include "init.h"
+
+void initSDL() {
 	// Initialize SDL
-	initSDL();
+	if(SDL_Init(SDL_INIT_VIDEO) < 0) {
+		fprintf(stderr, "SDL init error: %s\n", SDL_GetError());
+		exit(EXIT_FAILURE);
+	}
 	
-	// Initialize Game
-	Game *game = new Game;
+	// Initialize SDL_image
+	if(!IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG) {
+		fprintf(stderr, "SDL_image init error: %s\n", IMG_GetError());
+		exit(EXIT_FAILURE);
+	}
 	
-	// Process the game loop
-	game->mainLoop();
+	// Initialize SDL_ttf
+	if(TTF_Init() < 0) {
+		fprintf(stderr, "SDL_ttf init error: %s\n", TTF_GetError());
+		exit(EXIT_FAILURE);
+	}
 	
-	// Delete all Game objects
-	delete game;
-	
-	// Unload SDL
-	unloadSDL();
-	
-	return 0;
+	// Enable VSync if possible
+	if(!SDL_SetHint(SDL_HINT_RENDER_VSYNC, "1")) {
+		fprintf(stderr, "Warning: VSync not enabled!");
+	}
+}
+
+void unloadSDL() {
+	TTF_Quit();
+	IMG_Quit();
+	SDL_Quit();
 }
 

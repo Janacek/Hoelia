@@ -17,25 +17,23 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	
 ---------------------------------------------------------------------------------*/
-#include "init.h"
-#include "game.h"
+#ifndef INCLUDESDL_H
+#define INCLUDESDL_H
 
-int main(int argc, char* argv[]) {
-	// Initialize SDL
-	initSDL();
+#ifdef __ANDROID__
+	#include <android/log.h>
 	
-	// Initialize Game
-	Game *game = new Game;
-	
-	// Process the game loop
-	game->mainLoop();
-	
-	// Delete all Game objects
-	delete game;
-	
-	// Unload SDL
-	unloadSDL();
-	
-	return 0;
-}
+	#include "SDL.h"
+	#include "SDL_image.h"
+	#include "SDL_mixer.h"
+	#include "SDL_net.h"
+	#include "SDL_ttf.h"
+#else
+	#include <SDL2/SDL.h>
+	#include <SDL2/SDL_image.h>
+	#include <SDL2/SDL_mixer.h>
+	#include <SDL2/SDL_net.h>
+	#include <SDL2/SDL_ttf.h>
+#endif
 
+#endif // INCLUDESDL_H

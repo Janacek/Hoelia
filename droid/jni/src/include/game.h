@@ -17,25 +17,20 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	
 ---------------------------------------------------------------------------------*/
-#include "init.h"
-#include "game.h"
+#ifndef GAME_H
+#define GAME_H
 
-int main(int argc, char* argv[]) {
-	// Initialize SDL
-	initSDL();
-	
-	// Initialize Game
-	Game *game = new Game;
-	
-	// Process the game loop
-	game->mainLoop();
-	
-	// Delete all Game objects
-	delete game;
-	
-	// Unload SDL
-	unloadSDL();
-	
-	return 0;
-}
+class Game {
+	public:
+		Game();
+		~Game();
+		
+		void mainLoop();
+		
+	private:
+		// Game states
+		bool m_continue;
+		bool m_paused;
+};
 
+#endif // GAME_H

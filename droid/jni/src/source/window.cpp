@@ -17,25 +17,42 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	
 ---------------------------------------------------------------------------------*/
-#include "init.h"
-#include "game.h"
+#include "SDL_headers.h"
 
-int main(int argc, char* argv[]) {
-	// Initialize SDL
-	initSDL();
+#include "types.h"
+#include "window.h"
+
+Window *Window::main = NULL;
+
+Window::Window(const char *caption, u16 width, u16 height) {
+	m_width = width;
+	m_height = height;
 	
-	// Initialize Game
-	Game *game = new Game;
+	// Initialize window
+	m_window = SDL_CreateWindow(caption, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, m_width, m_height, SDL_WINDOW_SHOWN);
+	if(!m_window) {
+		fprintf(stderr, "Error while initializing window: %s\n", SDL_GetError());
+		exit(EXIT_FAILURE);
+	}
 	
-	// Process the game loop
-	game->mainLoop();
-	
-	// Delete all Game objects
-	delete game;
-	
-	// Unload SDL
-	unloadSDL();
-	
-	return 0;
+	// Initialize renderer
+	m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
+	if(!m_renderer) {
+		fprintf(stderr, "Renderer couldn't be created: %s\n", SDL_GetError());
+		exit(EXIT_FAILURE);
+	}
+}
+
+Window::~Window() {
+	SDL_DestroyRenderer(m_renderer);
+	SDL_DestroyWindow(m_window);
+}
+
+void Window::clear() {
+	SDL_RenderClear(m_renderer);
+}
+
+void Window::update() {
+	SDL_RenderPresent(m_renderer);
 }
 

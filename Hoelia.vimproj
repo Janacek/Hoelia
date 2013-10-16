@@ -11,9 +11,18 @@ Hoelia=~/Projects/Hoelia CD=. filter=".gitignore *.c *.cpp *.h *.vim AUTHORS Cha
   jni=jni {
    src=src {
     include=include {
+	 config.h
+	 game.h
+	 init.h
+	 SDL_headers.h
+	 types.h
+	 window.h
 	}
 	source=source {
-     main.cpp
+     game.cpp
+	 init.cpp
+	 main.cpp
+	 window.cpp
     }
    }
   }

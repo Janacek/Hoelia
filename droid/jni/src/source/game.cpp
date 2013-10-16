@@ -17,25 +17,37 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	
 ---------------------------------------------------------------------------------*/
-#include "init.h"
+#include "SDL_headers.h"
+
+#include "types.h"
+#include "window.h"
 #include "game.h"
 
-int main(int argc, char* argv[]) {
-	// Initialize SDL
-	initSDL();
+Game::Game() {
+	m_continue = true;
+	m_paused = false;
 	
-	// Initialize Game
-	Game *game = new Game;
-	
-	// Process the game loop
-	game->mainLoop();
-	
-	// Delete all Game objects
-	delete game;
-	
-	// Unload SDL
-	unloadSDL();
-	
-	return 0;
+	// Initialize game main window
+	Window::main = new Window("Hoelia", 640, 480);
+}
+
+Game::~Game() {
+	delete Window::main;
+}
+
+void Game::mainLoop() {
+	while(m_continue) {
+		// Process events
+		SDL_Event event;
+		while(SDL_PollEvent(&event) != 0) {
+			switch(event.type) {
+				case SDL_QUIT:
+					m_continue = false;
+					break;
+				default:
+					break;
+			}
+		}
+	}
 }
 

@@ -17,25 +17,30 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	
 ---------------------------------------------------------------------------------*/
-#include "init.h"
-#include "game.h"
+#ifndef WINDOW_H
+#define WINDOW_H
 
-int main(int argc, char* argv[]) {
-	// Initialize SDL
-	initSDL();
-	
-	// Initialize Game
-	Game *game = new Game;
-	
-	// Process the game loop
-	game->mainLoop();
-	
-	// Delete all Game objects
-	delete game;
-	
-	// Unload SDL
-	unloadSDL();
-	
-	return 0;
-}
+class Window {
+	public:
+		Window(const char *caption, u16 width, u16 height);
+		~Window();
+		
+		// Clear display
+		void clear();
+		
+		// Update display
+		void update();
+		
+		// Game main window
+		static Window *main;
+		
+	private:
+		SDL_Window *m_window;
+		SDL_Renderer *m_renderer;
+		
+		// Window size
+		u16 m_width;
+		u16 m_height;
+};
 
+#endif // WINDOW_H

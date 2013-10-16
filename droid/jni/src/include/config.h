@@ -17,25 +17,7 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	
 ---------------------------------------------------------------------------------*/
-#include "init.h"
-#include "game.h"
+#ifndef CONFIG_H
+#define CONFIG_H
 
-int main(int argc, char* argv[]) {
-	// Initialize SDL
-	initSDL();
-	
-	// Initialize Game
-	Game *game = new Game;
-	
-	// Process the game loop
-	game->mainLoop();
-	
-	// Delete all Game objects
-	delete game;
-	
-	// Unload SDL
-	unloadSDL();
-	
-	return 0;
-}
-
+#endif // CONFIG_H
