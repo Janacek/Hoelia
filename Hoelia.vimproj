@@ -1,4 +1,4 @@
-Hoelia=~/Projects/Hoelia CD=. filter=".gitignore *.c *.cpp *.h *.vim AUTHORS ChangeLog COPYING Makefile Notes TODO *.textile" {
+Hoelia=~/Projects/Hoelia CD=. filter=".gitignore *.c *.cpp *.h *.vim AUTHORS ChangeLog COPYING Makefile Notes TODO *.textile AndroidManifest.xml *.mk" {
  .gitignore
  AUTHORS
  ChangeLog
@@ -8,25 +8,33 @@ Hoelia=~/Projects/Hoelia CD=. filter=".gitignore *.c *.cpp *.h *.vim AUTHORS Cha
  TODO
  README.textile
  droid=droid {
+  AndroidManifest.xml
   jni=jni {
+   Android.mk
+   Application.mk
    src=src {
+    Android.mk
     include=include {
-	 config.h
-	 game.h
-	 image.h
-	 init.h
-	 SDL_headers.h
-	 timer.h
-	 types.h
-	 window.h
+     SDL_headers.h
+     config.h
+     game.h
+     image.h
+     init.h
+	 map.h
+	 mapManager.h
+     timer.h
+     types.h
+     window.h
 	}
 	source=source {
      game.cpp
-	 image.cpp
-	 init.cpp
-	 main.cpp
-	 timer.cpp
-	 window.cpp
+     image.cpp
+     init.cpp
+     main.cpp
+	 map.cpp
+	 mapManager.cpp
+     timer.cpp
+     window.cpp
     }
    }
   }

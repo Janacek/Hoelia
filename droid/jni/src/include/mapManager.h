@@ -17,9 +17,9 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	
 ---------------------------------------------------------------------------------*/
-#ifndef CONFIG_H
-#define CONFIG_H
+#ifndef MAPMANAGER_H
+#define MAPMANAGER_H
 
 
 
-#endif // CONFIG_H
+#endif // MAPMANAGER_H
