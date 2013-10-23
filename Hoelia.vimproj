@@ -15,7 +15,6 @@ Hoelia=~/Projects/Hoelia CD=. filter=".gitignore *.c *.cpp *.h *.vim AUTHORS Cha
    src=src {
     Android.mk
     include=include {
-     SDL_headers.h
      config.h
      game.h
      image.h
@@ -25,6 +24,7 @@ Hoelia=~/Projects/Hoelia CD=. filter=".gitignore *.c *.cpp *.h *.vim AUTHORS Cha
      timer.h
      types.h
      window.h
+     SDL_headers.h
 	}
 	source=source {
      game.cpp
