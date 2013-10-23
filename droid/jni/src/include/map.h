@@ -21,7 +21,7 @@
 #define MAP_H
 
 typedef struct {
-	Image *image;
+	Image *tiles;
 	u16 *info; // Informations for collisions
 	u16 tileWidth;
 	u16 tileHeight;
@@ -38,7 +38,7 @@ class Map {
 		u16 getTile(u16 tileX, u16 tileY);
 		
 		// Number of maps initialized
-		static u16 counter = 0;
+		static u16 counter;
 		
 	private:
 		u16 m_id;

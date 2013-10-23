@@ -33,6 +33,9 @@ class Image {
 		// Set clip rect
 		void setClipRect(s16 x, s16 y, u16 w, u16 h);
 		
+		u16 width() const { return m_width; }
+		u16 height() const { return m_height; }
+		
 	private:
 		// Image size
 		u16 m_width;

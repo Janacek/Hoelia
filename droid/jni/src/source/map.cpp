@@ -18,10 +18,12 @@
 	
 ---------------------------------------------------------------------------------*/
 #include <cstdio>
+#include <cstdlib>
 #include <sys/stat.h>
 
 #include "SDL_headers.h"
 
+#include "types.h"
 #include "image.h"
 #include "map.h"
 
@@ -70,7 +72,39 @@ Map::~Map() {
 	free(m_data);
 }
 
-void Map::render() {
+void Map::renderTile(u16 tileX, u16 tileY) {
+	// Get absolute coordinates
+	u16 posX = (tileX + m_mapX * m_width) * m_tileset->tileWidth;
+	u16 posY = (tileY + m_mapY * m_height) * m_tileset->tileHeight;
 	
+	// Get tile id
+	u16 tileID = getTile(tileX, tileY);
+	
+	// Get tile position in the tileset
+	u16 tilesetY = (tileID / (m_tileset->tiles->width() / m_tileset->tileHeight)) * m_tileset->tileHeight;
+	u16 tilesetX = (tileID - (tilesetY / m_tileset->tileHeight) * (m_tileset->tiles->width() / m_tileset->tileHeight)) * m_tileset->tileWidth;
+	
+	// Set position and clip tile to display
+	m_tileset->tiles->setPosRect(posX, posY, m_tileset->tileWidth, m_tileset->tileHeight);
+	m_tileset->tiles->setClipRect(tilesetX, tilesetY, m_tileset->tileWidth, m_tileset->tileHeight);
+	
+	// Render the tile
+	m_tileset->tiles->render();
+}
+
+void Map::render() {
+	for(u16 y = 0 ; y < m_height ; y++) {
+		for(u16 x = 0 ; x < m_width ; x++) {
+			renderTile(x, y);
+		}
+	}
+}
+
+u16 Map::getTile(u16 tileX, u16 tileY) {
+	if(tileX + tileY * m_width < m_width * m_height) {
+		return m_data[tileX + tileY * m_width];
+	} else {
+		return 0; // The tile is out of range
+	}
 }
 
