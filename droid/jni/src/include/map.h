@@ -20,13 +20,40 @@
 #ifndef MAP_H
 #define MAP_H
 
+typedef struct {
+	Image *image;
+	u16 *info; // Informations for collisions
+	u16 tileWidth;
+	u16 tileHeight;
+} Tileset;
+
 class Map {
 	public:
-		Map();
+		Map(const char *filename, Tileset *tileset, u16 width, u16 height, u16 mapX, u16 mapY, u16 area = 0);
 		~Map();
 		
-	private:
+		void renderTile(u16 tileX, u16 tileY);
+		void render();
 		
+		u16 getTile(u16 tileX, u16 tileY);
+		
+		// Number of maps initialized
+		static u16 counter = 0;
+		
+	private:
+		u16 m_id;
+		
+		Tileset *m_tileset;
+		
+		u16 m_width;
+		u16 m_height;
+		
+		u16 m_mapX;
+		u16 m_mapY;
+		
+		u16 m_area;
+		
+		u16 *m_data;
 };
 
 #endif // MAP_H
