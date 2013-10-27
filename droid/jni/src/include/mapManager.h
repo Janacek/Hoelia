@@ -20,6 +20,29 @@
 #ifndef MAPMANAGER_H
 #define MAPMANAGER_H
 
+#define NB_TILESETS 3
+#define NB_ZONES 3
 
+#define DEFAULT_MAP_WIDTH 40
+#define DEFAULT_MAP_HEIGHT 30
+
+#define OVERWORLD_SIZE 2
+#define INDOOR_SIZE 3
+#define CAVE_1_SIZE 2
+
+#define MAP_POS(x, y, zone) (u16)((x) + (y) * sqrt((double)MapManager::zonesSizes[zone]))
+
+namespace MapManager {
+	void initAll();
+	void free();
+	
+	void initTilesets();
+	void initMaps();
+	
+	extern Tileset **tilesets;
+	extern Map ***zones;
+	
+	extern u16 zonesSizes[NB_ZONES];
+};
 
 #endif // MAPMANAGER_H

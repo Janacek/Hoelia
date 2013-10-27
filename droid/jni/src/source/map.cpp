@@ -29,7 +29,7 @@
 
 u16 Map::counter = 0;
 
-Map::Map(const char *filename, Tileset *tileset, u16 width, u16 height, u16 mapX, u16 mapY, u16 area) {
+Map::Map(const char *filename, Tileset *tileset, u16 width, u16 height, u16 mapX, u16 mapY, u16 zone) {
 	m_id = counter;
 	counter++;
 	
@@ -41,7 +41,7 @@ Map::Map(const char *filename, Tileset *tileset, u16 width, u16 height, u16 mapX
 	m_mapX = mapX;
 	m_mapY = mapY;
 	
-	m_area = area;
+	m_zone = zone;
 	
 	// Make a temporary variable to get map file data
 	u16* data = (u16*)malloc(m_width * m_height * sizeof(u16));

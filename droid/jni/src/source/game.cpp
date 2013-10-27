@@ -23,6 +23,7 @@
 #include "window.h"
 #include "image.h"
 #include "map.h"
+#include "mapManager.h"
 #include "game.h"
 
 Game::Game() {
@@ -31,9 +32,13 @@ Game::Game() {
 	
 	// Initialize game main window
 	Window::main = new Window("Hoelia", 640, 480);
+	
+	MapManager::initAll();
 }
 
 Game::~Game() {
+	MapManager::free();
+	
 	delete Window::main;
 }
 
@@ -42,16 +47,6 @@ void Game::mainLoop() {
 	u32 lastTime = 0;
 	u32 actualTime = 0;
 	
-	/* TEST FOR MAPS */
-	Image *plainTiles = new Image("graphics/tilesets/plain.png");
-	u16 plainInfo[256];
-	for(u16 i = 0 ; i < 256 ; i++) plainInfo[i] = 0;
-	Tileset *plain = new Tileset{plainTiles, plainInfo, 16, 16};
-	
-	Map *a1 = new Map("maps/a1.map", plain, 40, 30, 0, 0, 0);
-	
-	a1->render();
- 	
 	while(m_continue) {
 		// Process events
 		SDL_Event event;
@@ -75,9 +70,5 @@ void Game::mainLoop() {
 		// Update render
 		Window::main->update();
 	}
-	
-	delete a1;
-	delete plain;
-	delete plainTiles;
 }
 

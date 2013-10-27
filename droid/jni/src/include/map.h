@@ -23,13 +23,13 @@
 typedef struct {
 	Image *tiles;
 	u16 *info; // Informations for collisions
-	u16 tileWidth;
-	u16 tileHeight;
+	u16 tileWidth = 16;
+	u16 tileHeight = 16;
 } Tileset;
 
 class Map {
 	public:
-		Map(const char *filename, Tileset *tileset, u16 width, u16 height, u16 mapX, u16 mapY, u16 area = 0);
+		Map(const char *filename, Tileset *tileset, u16 width, u16 height, u16 mapX, u16 mapY, u16 zone = 0);
 		~Map();
 		
 		void renderTile(u16 tileX, u16 tileY);
@@ -51,7 +51,7 @@ class Map {
 		u16 m_mapX;
 		u16 m_mapY;
 		
-		u16 m_area;
+		u16 m_zone;
 		
 		u16 *m_data;
 };
