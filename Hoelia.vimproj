@@ -15,6 +15,7 @@ Hoelia=~/Projects/Hoelia CD=. filter=".gitignore *.c *.cpp *.h *.vim AUTHORS Cha
    src=src {
     Android.mk
     include=include {
+	 animation.h
      config.h
      game.h
      image.h

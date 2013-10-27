@@ -47,6 +47,8 @@ void Game::mainLoop() {
 	u32 lastTime = 0;
 	u32 actualTime = 0;
 	
+	MapManager::currentMap->render();
+	
 	while(m_continue) {
 		// Process events
 		SDL_Event event;

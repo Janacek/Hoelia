@@ -33,6 +33,8 @@ u16 MapManager::zonesSizes[NB_ZONES] = {
 	CAVE_1_SIZE * CAVE_1_SIZE
 };
 
+Map *MapManager::currentMap = NULL;
+
 /*	Tiles informations:
 		0: Passable
 		1: Non passable
@@ -159,6 +161,7 @@ void MapManager::initMaps() {
 void MapManager::initAll() {
 	initTilesets();
 	initMaps();
+	currentMap = zones[0][0];
 }
 
 void MapManager::free() {

@@ -17,34 +17,20 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	
 ---------------------------------------------------------------------------------*/
-#ifndef MAPMANAGER_H
-#define MAPMANAGER_H
+#ifndef ANIMATION_H
+#define ANIMATION_H
 
-#define NB_TILESETS 3
-#define NB_ZONES 3
-
-#define DEFAULT_MAP_WIDTH 40
-#define DEFAULT_MAP_HEIGHT 30
-
-#define OVERWORLD_SIZE 2
-#define INDOOR_SIZE 3
-#define CAVE_1_SIZE 2
-
-#define MAP_POS(x, y, zone) (u16)((x) + (y) * sqrt((double)MapManager::zonesSizes[zone]))
-
-namespace MapManager {
-	void initAll();
-	void free();
+struct Animation {
+	Animation(u16 _size, u16 *_tabAnim, u16 _delay, bool _isPlaying = false) :
+		size(_size), tabAnim(_tabAnim), delay(_delay), isPlaying(_isPlaying) {}
 	
-	void initTilesets();
-	void initMaps();
-	
-	extern Tileset **tilesets;
-	extern Map ***zones;
-	
-	extern u16 zonesSizes[NB_ZONES];
-	
-	extern Map *currentMap;
+	u16 size;
+	u16 *tabAnim;	// Animation table
+	u16 delay;		// Delay between animations
+	Timer timer;
+	bool isPlaying;
 };
 
-#endif // MAPMANAGER_H
+typedef Animation Animation;
+
+#endif // ANIMATION_H
