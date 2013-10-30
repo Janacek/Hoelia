@@ -84,12 +84,8 @@ void Map::renderTile(u16 tileX, u16 tileY) {
 	u16 tilesetY = (tileID / (m_tileset->tiles->width() / m_tileset->tileHeight)) * m_tileset->tileHeight;
 	u16 tilesetX = (tileID - (tilesetY / m_tileset->tileHeight) * (m_tileset->tiles->width() / m_tileset->tileHeight)) * m_tileset->tileWidth;
 	
-	// Set position and clip tile to display
-	m_tileset->tiles->setPosRect(posX, posY, m_tileset->tileWidth, m_tileset->tileHeight);
-	m_tileset->tiles->setClipRect(tilesetX, tilesetY, m_tileset->tileWidth, m_tileset->tileHeight);
-	
 	// Render the tile
-	m_tileset->tiles->render();
+	m_tileset->tiles->render(posX, posY, m_tileset->tileWidth, m_tileset->tileHeight, tilesetX, tilesetY, m_tileset->tileWidth, m_tileset->tileHeight);
 }
 
 void Map::render() {

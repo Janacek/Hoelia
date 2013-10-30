@@ -17,40 +17,29 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	
 ---------------------------------------------------------------------------------*/
-#ifndef IMAGE_H
-#define IMAGE_H
+#ifndef SPRITE_H
+#define SPRITE_H
 
-class Image {
+class Sprite : public Image {
 	public:
-		Image(const char *filename);
-		~Image();
+		Sprite(const char *filename, u16 frameWidth = 16, u16 frameHeight = 16);
+		~Sprite();
 		
-		void render();
-		void render(s16 x, s16 y, u16 w = 0, u16 h = 0, s16 clipX = -1, s16 clipY = -1, u16 clipW = 0, u16 clipH = 0);
+		void drawFrame(s16 x, s16 y, u16 frame);
 		
-		// Set position
-		void setPosRect(s16 x, s16 y, u16 w, u16 h);
-		
-		// Set clip rect
-		void setClipRect(s16 x, s16 y, u16 w, u16 h);
-		
-		u16 width() const { return m_width; }
-		u16 height() const { return m_height; }
+		void addAnimation(u16 size, u16 *tabAnim, u16 delay);
+		void resetAnimation(u16 anim);
+		void startAnimation(u16 anim);
+		void stopAnimation(u16 anim);
+		bool animationAtEnd(u16 anim);
+		bool animationAtFrame(u16 anim, u16 frame);
+		void playAnimation(s16 x, s16 y, u16 anim);
 		
 	protected:
-		// Image size
-		u16 m_width;
-		u16 m_height;
+		u16 m_frameWidth;
+		u16 m_frameHeight;
 		
-		// Surface object
-		SDL_Surface *m_surface;
-		
-		// Texture object
-		SDL_Texture *m_texture;
-		
-		// SDL rects
-		SDL_Rect m_clipRect;
-		SDL_Rect m_posRect;
+		std::vector<Animation*> m_animations;
 };
 
-#endif // IMAGE_H
+#endif // SPRITE_H
