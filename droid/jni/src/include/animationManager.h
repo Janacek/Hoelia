@@ -22,4 +22,6 @@
 
 extern u16 playerAnimations[8][4];
 
+extern u16 base16x16CharacterAnimations[4][4];
+
 #endif // ANIMATIONMANAGER_H

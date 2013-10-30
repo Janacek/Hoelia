@@ -35,3 +35,10 @@ u16 playerAnimations[8][4] = {
 	{11,15,15,15}
 };
 
+u16 base16x16CharacterAnimations[4][4] = {
+	{4,0},
+	{5,1},
+	{6,2},
+	{7,3}
+};
+
