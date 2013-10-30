@@ -20,12 +20,16 @@
 #ifndef MAP_H
 #define MAP_H
 
-typedef struct {
+struct Tileset {
+	Tileset() : tileWidth(16), tileHeight(16) {}
+	
 	Image *tiles;
 	u16 *info; // Informations for collisions
-	u16 tileWidth = 16;
-	u16 tileHeight = 16;
-} Tileset;
+	u16 tileWidth;
+	u16 tileHeight;
+};
+
+typedef struct Tileset Tileset;
 
 class Map {
 	public:

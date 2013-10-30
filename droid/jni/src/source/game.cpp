@@ -31,16 +31,12 @@
 
 Game::Game() {
 #ifdef __ANDROID__
-	// Initialize display mode
 	SDL_DisplayMode current;
+	SDL_GetCurrentDisplayMode(0, &current);
 	
-	// Get current display mode
-	int success = SDL_GetCurrentDisplayMode(0, &current);
-	
-	// Log cat
 	__android_log_print(ANDROID_LOG_INFO, "Hoelia", "Current display: %dx%d", current.w, current.h);
 	
-	Window::main = new Window("Hoelia" current.w, current.h);
+	Window::main = new Window("Hoelia", current.w, current.h);
 #else
 	Window::main = new Window("Hoelia", 640, 480);
 #endif
