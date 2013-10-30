@@ -17,69 +17,51 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	
 ---------------------------------------------------------------------------------*/
+#include <vector>
+
 #include "SDL_headers.h"
 
 #include "types.h"
+#include "config.h"
 #include "color.h"
 #include "window.h"
+#include "timer.h"
 #include "image.h"
-#include "map.h"
-#include "mapManager.h"
+#include "animation.h"
+#include "sprite.h"
 #include "font.h"
 #include "interface.h"
 #include "game.h"
 
-Game::Game() {
-	m_continue = true;
-	m_paused = false;
+Font *Interface::defaultFont = NULL;
+Image *Interface::pad = NULL;
+Image *Interface::buttonA = NULL;
+
+void Interface::init() {
+	defaultFont = new Font("fonts/vani.ttf");
 	
-	// Initialize game main window
-	Window::main = new Window("Hoelia", 640, 480);
+	pad = new Image("graphics/interface/pad.png");
+	pad->setAlpha(175);
 	
-	MapManager::initAll();
-	
-	Interface::init();
+	buttonA = new Image("graphics/interface/a.png");
+	buttonA->setAlpha(175);
 }
 
-Game::~Game() {
-	Interface::quit();
-	
-	MapManager::free();
-	
-	delete Window::main;
+void Interface::quit() {
+	delete defaultFont;
+	delete pad;
+	delete buttonA;
 }
 
-void Game::mainLoop() {
-	// Initialize time counters
-	u32 lastTime = 0;
-	u32 actualTime = 0;
+void Interface::renderPad() {
+	pad->render(Window::main->viewportX() + 16, Window::main->viewportY() + Window::main->viewportH() - pad->height() - 16, pad->width(), pad->height());
 	
-	MapManager::currentMap->render();
-	
-	while(m_continue) {
-		// Process events
-		SDL_Event event;
-		while(SDL_PollEvent(&event) != 0) {
-			switch(event.type) {
-				case SDL_QUIT:
-					m_continue = false;
-					break;
-				default:
-					break;
-			}
-		}
-		
-		// Skip 15 ms between each frame
-		actualTime = SDL_GetTicks();
-		if(actualTime - lastTime < 15) {
-			SDL_Delay(15 - (actualTime - lastTime));
-			continue;
-		}
-		
-		Interface::renderHUD();
-		
-		// Update render
-		Window::main->update();
-	}
+	buttonA->render(Window::main->viewportX() + Window::main->viewportW() - buttonA->width() - 16, Window::main->viewportY() + Window::main->viewportH() - buttonA->height() - 16, buttonA->width(), buttonA->height());
+}
+
+void Interface::renderHUD() {
+#ifdef PAD
+	renderPad();
+#endif
 }
 

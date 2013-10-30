@@ -20,7 +20,11 @@
 #include "SDL_headers.h"
 
 #include "types.h"
+#include "config.h"
 #include "window.h"
+#include "image.h"
+#include "map.h"
+#include "mapManager.h"
 
 Window *Window::main = NULL;
 
@@ -41,6 +45,19 @@ Window::Window(const char *caption, u16 width, u16 height) {
 		fprintf(stderr, "Renderer couldn't be created: %s\n", SDL_GetError());
 		exit(EXIT_FAILURE);
 	}
+
+#ifndef VIEWPORT
+	// Initialize viewport size
+	m_viewportW = m_width;
+	m_viewportH = m_height;
+#else
+	// Initialize viewport size
+	m_viewportW = m_width / 2;
+	m_viewportH = m_height / 2;
+	
+	// Set viewport
+	SDL_RenderSetLogicalSize(m_renderer, m_viewportW, m_viewportH);
+#endif
 }
 
 Window::~Window() {
@@ -53,6 +70,33 @@ void Window::clear() {
 }
 
 void Window::update() {
+#ifdef VIEWPORT
+	centerViewportWithObject(CharacterManager::player()->x(),
+							 CharacterManager::player()->y(),
+							 CharacterManager::player()->frameWidth(),
+							 CharacterManager::player()->frameHeight());
+#endif
+	
 	SDL_RenderPresent(m_renderer);
+}
+
+void Window::updateViewportPosition(s16 x, s16 y) {
+	// Check if the viewport is in the map
+	if(x < 0) x = 0;
+	if(x + m_viewportW >= MapManager::currentMap->width() * 16) x = MapManager::currentMap->width() * 16 - m_viewportW - 1;
+	if(y < 0) y = 0;
+	if(y + m_viewportH >= MapManager::currentMap->height() * 16) y = MapManager::currentMap->height() * 16 - m_viewportH - 1;
+	
+	// Update viewport position
+	m_viewportX = x;
+	m_viewportY = y;
+	
+	// Set viewport
+	SDL_Rect viewportRect = {-x, y - m_height / 2, m_width, m_height};
+	SDL_RenderSetViewport(m_renderer, &viewportRect);
+}
+
+void Window::centerViewportWithObject(s16 x, s16 y, u16 w, u16 h) {
+	updateViewportPosition(x - (m_viewportW - w) / 2, y - (m_viewportH - h) / 2);
 }
 

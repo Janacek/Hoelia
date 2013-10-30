@@ -45,6 +45,6 @@ namespace MapManager {
 	extern u16 zonesSizes[NB_ZONES];
 	
 	extern Map *currentMap;
-};
+}
 
 #endif // MAPMANAGER_H

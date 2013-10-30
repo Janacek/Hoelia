@@ -24,6 +24,7 @@ Hoelia=~/Projects/Hoelia CD=. filter=".gitignore *.c *.cpp *.h *.vim AUTHORS Cha
      game.h
      image.h
      init.h
+	 interface.h
      keyboard.h
      map.h
      mapManager.h
@@ -39,6 +40,7 @@ Hoelia=~/Projects/Hoelia CD=. filter=".gitignore *.c *.cpp *.h *.vim AUTHORS Cha
      game.cpp
      image.cpp
      init.cpp
+	 interface.cpp
      keyboard.cpp
      main.cpp
      map.cpp

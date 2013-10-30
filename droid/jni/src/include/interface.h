@@ -17,48 +17,22 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	
 ---------------------------------------------------------------------------------*/
-#ifndef WINDOW_H
-#define WINDOW_H
+#ifndef INTERFACE_H
+#define INTERFACE_H
 
-class Window {
-	public:
-		Window(const char *caption, u16 width, u16 height);
-		~Window();
-		
-		// Clear render
-		void clear();
-		
-		// Update render
-		void update();
-			
-		void updateViewportPosition(s16 x, s16 y);
-		
-		void centerViewportWithObject(s16 x, s16 y, u16 w, u16 h);
-		
-		SDL_Renderer *renderer() { return m_renderer; }
-		
-		s16 viewportX() const { return m_viewportX; }
-		s16 viewportY() const { return m_viewportY; }
-		
-		u16 viewportW() const { return m_viewportW; }
-		u16 viewportH() const { return m_viewportH; }
-		
-		// Game main window
-		static Window *main;
-		
-	private:
-		SDL_Window *m_window;
-		SDL_Renderer *m_renderer;
-		
-		// Window size
-		u16 m_width;
-		u16 m_height;
-		
-		s16 m_viewportX;
-		s16 m_viewportY;
-		
-		u16 m_viewportW;
-		u16 m_viewportH;
-};
+namespace Interface {
+	void init();
+	void quit();
+	
+	void renderPad();
+	
+	void renderHUD();
+	
+	extern Font *defaultFont;
+	
+	extern Image *pad;
+	
+	extern Image *buttonA;
+}
 
-#endif // WINDOW_H
+#endif // INTERFACE_H

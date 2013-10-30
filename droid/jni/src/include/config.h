@@ -20,6 +20,9 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-
+#ifdef __ANDROID__
+	#define VIEWPORT
+	#define PAD
+#endif
 
 #endif // CONFIG_H

@@ -37,6 +37,9 @@ class Map {
 		
 		u16 getTile(u16 tileX, u16 tileY);
 		
+		u16 width() const { return m_width; }
+		u16 height() const { return m_height; }
+		
 		// Number of maps initialized
 		static u16 counter;
 		
