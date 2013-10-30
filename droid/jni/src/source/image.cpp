@@ -24,28 +24,42 @@
 #include "image.h"
 
 Image::Image(const char *filename) {
-	// Load image from file
 	SDL_RWops *image = SDL_RWFromFile(filename, "rb");
 	m_surface = IMG_Load_RW(image, 1);
 	
-	// Check loading errors
 	if(!m_surface) {
 		fprintf(stderr, "Failed to load image \"%s\": %s\n", filename, IMG_GetError());
 		exit(EXIT_FAILURE);
 	}
 	
-	// Get image dimensions
 	m_width = m_surface->w;
 	m_height = m_surface->h;
 	
-	// Initialize texture
 	m_texture = SDL_CreateTextureFromSurface(Window::main->renderer(), m_surface);
 	if(!m_texture) {
 		fprintf(stderr, "Failed to create texture from image: %s", SDL_GetError());
 		exit(EXIT_FAILURE);
 	}
 	
-	// Initialize rects
+	m_clipRect.x = 0;
+	m_clipRect.y = 0;
+	m_clipRect.w = m_width;
+	m_clipRect.h = m_height;
+	
+	m_posRect.x = 0;
+	m_posRect.y = 0;
+	m_posRect.w = m_width;
+	m_posRect.h = m_height;
+}
+
+Image::Image(SDL_Surface *surface) {
+	m_surface = surface;
+	
+	m_width = m_surface->w;
+	m_height = m_surface->h;
+	
+	m_texture = SDL_CreateTextureFromSurface(Window::main->renderer(), m_surface);
+	
 	m_clipRect.x = 0;
 	m_clipRect.y = 0;
 	m_clipRect.w = m_width;

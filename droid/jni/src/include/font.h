@@ -17,41 +17,28 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	
 ---------------------------------------------------------------------------------*/
-#ifndef IMAGE_H
-#define IMAGE_H
+#ifndef FONT_H
+#define FONT_H
 
-class Image {
+typedef enum {
+	FONT_SMALL	= 12,
+	FONT_MEDIUM = 20,
+	FONT_LARGE	= 30
+} FontSize;
+
+class Font {
 	public:
-		Image(const char *filename);
-		Image(SDL_Surface *surface);
-		~Image();
+		Font(const char *filename);
+		~Font();
 		
-		void render();
-		void render(s16 x, s16 y, u16 w = 0, u16 h = 0, s16 clipX = -1, s16 clipY = -1, u16 clipW = 0, u16 clipH = 0);
+		void print(const char *str, u16 x, u16 y, FontSize size, Color color = Color::black);
 		
-		// Set position
-		void setPosRect(s16 x, s16 y, u16 w, u16 h);
+		void printTextBox(const char *str, u16 x, u16 y, u16 width, u16 height, FontSize size, Color color = Color::black);
 		
-		// Set clip rect
-		void setClipRect(s16 x, s16 y, u16 w, u16 h);
-		
-		u16 width() const { return m_width; }
-		u16 height() const { return m_height; }
-		
-	protected:
-		// Image size
-		u16 m_width;
-		u16 m_height;
-		
-		// Surface object
-		SDL_Surface *m_surface;
-		
-		// Texture object
-		SDL_Texture *m_texture;
-		
-		// SDL rects
-		SDL_Rect m_clipRect;
-		SDL_Rect m_posRect;
+	private:
+		TTF_Font *m_fontSmall;
+		TTF_Font *m_fontMedium;
+		TTF_Font *m_fontLarge;
 };
 
-#endif // IMAGE_H
+#endif // FONT_H

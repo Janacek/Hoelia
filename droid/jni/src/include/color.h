@@ -17,41 +17,24 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	
 ---------------------------------------------------------------------------------*/
-#ifndef IMAGE_H
-#define IMAGE_H
+#ifndef COLOR_H
+#define COLOR_H
 
-class Image {
+class Color {
 	public:
-		Image(const char *filename);
-		Image(SDL_Surface *surface);
-		~Image();
+		Color(u8 _r, u8 _g, u8 _b, u8 _a = 255);
+		~Color();
 		
-		void render();
-		void render(s16 x, s16 y, u16 w = 0, u16 h = 0, s16 clipX = -1, s16 clipY = -1, u16 clipW = 0, u16 clipH = 0);
+		void invert() { r=255-r; g=255-g; b=255-b; }
 		
-		// Set position
-		void setPosRect(s16 x, s16 y, u16 w, u16 h);
+		u8 r;
+		u8 g;
+		u8 b;
+		u8 a;
 		
-		// Set clip rect
-		void setClipRect(s16 x, s16 y, u16 w, u16 h);
-		
-		u16 width() const { return m_width; }
-		u16 height() const { return m_height; }
-		
-	protected:
-		// Image size
-		u16 m_width;
-		u16 m_height;
-		
-		// Surface object
-		SDL_Surface *m_surface;
-		
-		// Texture object
-		SDL_Texture *m_texture;
-		
-		// SDL rects
-		SDL_Rect m_clipRect;
-		SDL_Rect m_posRect;
+		static Color white;
+		static Color black;
+		static Color life;
 };
 
-#endif // IMAGE_H
+#endif // COLOR_H

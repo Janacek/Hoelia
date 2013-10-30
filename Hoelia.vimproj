@@ -15,29 +15,35 @@ Hoelia=~/Projects/Hoelia CD=. filter=".gitignore *.c *.cpp *.h *.vim AUTHORS Cha
    src=src {
     Android.mk
     include=include {
-	 animation.h
-	 animationManager.h
+     SDL_headers.h
+     animation.h
+     animationManager.h
+     color.h
      config.h
+     font.h
      game.h
      image.h
      init.h
-	 map.h
-	 mapManager.h
-	 sprite.h
+     keyboard.h
+     map.h
+     mapManager.h
+     sprite.h
      timer.h
      types.h
      window.h
-     SDL_headers.h
 	}
 	source=source {
-	 animationManager.cpp
+     animationManager.cpp
+     color.cpp
+     font.cpp
      game.cpp
      image.cpp
      init.cpp
+     keyboard.cpp
      main.cpp
-	 map.cpp
-	 mapManager.cpp
-	 sprite.cpp
+     map.cpp
+     mapManager.cpp
+     sprite.cpp
      timer.cpp
      window.cpp
     }
