@@ -45,7 +45,10 @@ Window::Window(const char *caption, u16 width, u16 height) {
 		fprintf(stderr, "Renderer couldn't be created: %s\n", SDL_GetError());
 		exit(EXIT_FAILURE);
 	}
-
+	
+	m_viewportX = 0;
+	m_viewportY = 0;
+	
 #ifndef VIEWPORT
 	// Initialize viewport size
 	m_viewportW = m_width;
