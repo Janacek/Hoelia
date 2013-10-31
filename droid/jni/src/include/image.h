@@ -35,6 +35,8 @@ class Image {
 		
 		void setAlpha(u8 alpha) { SDL_SetTextureAlphaMod(m_texture, alpha); }
 		
+		SDL_Rect posRect() const { return m_posRect; }
+		
 		u16 width() const { return m_width; }
 		u16 height() const { return m_height; }
 		

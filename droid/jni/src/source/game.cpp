@@ -21,6 +21,7 @@
 
 #include "types.h"
 #include "color.h"
+#include "keyboard.h"
 #include "window.h"
 #include "image.h"
 #include "map.h"
@@ -58,35 +59,44 @@ Game::~Game() {
 }
 
 void Game::mainLoop() {
-	// Initialize time counters
-	u32 lastTime = 0;
-	u32 actualTime = 0;
-	
-	MapManager::currentMap->render();
-	
 	while(m_continue) {
-		// Process events
 		SDL_Event event;
 		while(SDL_PollEvent(&event) != 0) {
 			switch(event.type) {
 				case SDL_QUIT:
 					m_continue = false;
 					break;
+#ifndef __ANDROID__
+				case SDL_KEYDOWN:
+					switch(event.key.keysym.sym) {
+						case SDLK_ESCAPE: m_continue = false; break;
+						case SDLK_p: m_paused = !m_paused; break;
+						default: break;
+					}
+#else
+				case SDL_FINGERDOWN:
+				case SDL_FINGERMOTION:
+					Keyboard::updatePad(&event);
+					break;
+				case SDL_FINGERUP:
+					Keyboard::resetPad(&event, true);
+					break;
+				case SDL_APP_WILLENTERBACKGROUND:
+					continue;
+#endif
 				default:
 					break;
 			}
 		}
 		
-		// Skip 15 ms between each frame
-		actualTime = SDL_GetTicks();
-		if(actualTime - lastTime < 15) {
-			SDL_Delay(15 - (actualTime - lastTime));
-			continue;
-		}
+		Keyboard::update();
+		
+		Window::main->clear();
+		
+		MapManager::currentMap->render();
 		
 		Interface::renderHUD();
 		
-		// Update render
 		Window::main->update();
 	}
 }

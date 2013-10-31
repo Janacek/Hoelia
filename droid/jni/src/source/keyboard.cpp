@@ -20,7 +20,12 @@
 #include "SDL_headers.h"
 
 #include "types.h"
+#include "color.h"
 #include "keyboard.h"
+#include "window.h"
+#include "image.h"
+#include "font.h"
+#include "interface.h"
 
 const u8 *Keyboard::state = NULL;
 u8 Keyboard::padState[5] = {0, 0, 0, 0, 0};
@@ -79,22 +84,22 @@ void Keyboard::resetPad(SDL_Event *e, bool released) {
 }
 
 void Keyboard::updatePad(SDL_Event *e) {
-/*	// Get finger position
-	u16 fx = e->tfinger.x * Game::MainWindow->viewportW();
-	u16 fy = e->tfinger.y * Game::MainWindow->viewportH();
+	// Get finger position
+	u16 fx = e->tfinger.x * Window::main->viewportW();
+	u16 fy = e->tfinger.y * Window::main->viewportH();
 	
 	// Get pad position
-	u16 px = Interface::pad->posRect()->x - Game::MainWindow->viewportX();
-	u16 py = Interface::pad->posRect()->y - Game::MainWindow->viewportY();
+	u16 px = Interface::pad->posRect().x - Window::main->viewportX();
+	u16 py = Interface::pad->posRect().y - Window::main->viewportY();
 	
 	// Get 'A' button position
-	u16 ax = Interface::buttonA->posRect()->x - Game::MainWindow->viewportX();
-	u16 ay = Interface::buttonA->posRect()->y - Game::MainWindow->viewportY();
+	u16 ax = Interface::buttonA->posRect().x - Window::main->viewportX();
+	u16 ay = Interface::buttonA->posRect().y - Window::main->viewportY();
 	
 	resetPad(e);
-*/	
+	
 	/* TEST PAD */
-/*	// Up: (0;0;71;28)
+	// Up: (0;0;71;28)
 	if(fx > px - 16 && fx < px + 71 + 16 && fy > py - 16 && fy < py + 28 - 8) {
 		padState[PAD_UP] = 1;
 		padFinger[PAD_UP] = e->tfinger.fingerId;
@@ -123,5 +128,5 @@ void Keyboard::updatePad(SDL_Event *e) {
 		padState[PAD_A] = 1;
 		padFinger[PAD_A] = e->tfinger.fingerId;
 	}
-*/}
+}
 
