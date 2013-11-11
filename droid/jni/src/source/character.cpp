@@ -82,16 +82,8 @@ void Character::render() {
 }
 
 bool passable(s16 x, s16 y) {
-	// Collisions with map
 	return !inTable(MapManager::nonPassableTiles, MapManager::currentMap->tileset()->info[MapManager::currentMap->getTile(x >> 4, y >> 4)]);
 }
-
-/*bool Character::inNonPassableTile() {
-	return(!passable(m_x + m_hitboxX + m_vx			   , m_y + m_hitboxY + m_vy			   )
-		|| !passable(m_x + m_hitboxX + m_vx + m_hitboxW, m_y + m_hitboxY + m_vy			   )
-		|| !passable(m_x + m_hitboxX + m_vx			   , m_y + m_hitboxY + m_vy + m_hitboxH)
-		|| !passable(m_x + m_hitboxX + m_vx + m_hitboxW, m_y + m_hitboxY + m_vy + m_hitboxH));
-}*/
 
 void Character::mapCollisions() {
 	// Up and down
