@@ -22,6 +22,7 @@
 #include "SDL_headers.h"
 
 #include "types.h"
+#include "config.h"
 #include "timer.h"
 #include "image.h"
 #include "animation.h"
@@ -62,6 +63,14 @@ Map *MapManager::currentMap = NULL;
 		18: Block of sand 
 		19: Low water
 */
+
+u16 MapManager::nonPassableTiles[13] = {
+	1,3,4,5,6,8,9,10,12,16,17,18,0
+};
+
+u16 MapManager::changeMapTiles[3] = {
+	11,15,0
+};
 
 u16 plainInfo[256] = {
 	0,0,0,0,0,0,0,3,2,0,0,0,0,0,0,0,
@@ -176,3 +185,37 @@ void MapManager::free() {
 	}
 	delete[] tilesets;
 }
+
+u16 _mid(u16 area, u16 id) {
+	u16 tempID = id;
+	for(u16 i = 0 ; i < area ; i++)
+		tempID += MapManager::zonesSizes[i];
+	return tempID;
+}
+
+bool inTable(u16 tiles[], u16 id) {
+	for(u16 i = 0 ; tiles[i] != 0 ; i++) {
+		if(tiles[i] == id) return true;
+	}
+	return false;
+}
+
+bool inTiles(s16 tileX, s16 tileY, u16 tiles[]) {
+	return inTable(tiles, MapManager::currentMap->tileset()->info[MapManager::currentMap->getTile(tileX, tileY)]);
+}
+
+bool inZone(s16 x, s16 y, u16 tile) {
+	return (MapManager::currentMap->tileset()->info[MapManager::currentMap->getTile(floor(((double)x + 4) / MapManager::currentMap->tileset()->tileWidth), floor(((double)y + 12) / MapManager::currentMap->tileset()->tileHeight))] == tile
+	|| MapManager::currentMap->tileset()->info[MapManager::currentMap->getTile( ceil(((double)x - 4) / MapManager::currentMap->tileset()->tileWidth), floor(((double)y + 12) / MapManager::currentMap->tileset()->tileHeight))] == tile
+	|| MapManager::currentMap->tileset()->info[MapManager::currentMap->getTile(floor(((double)x + 4) / MapManager::currentMap->tileset()->tileWidth),  ceil(((double)y - 4) / MapManager::currentMap->tileset()->tileHeight))] == tile
+	|| MapManager::currentMap->tileset()->info[MapManager::currentMap->getTile( ceil(((double)x - 4) / MapManager::currentMap->tileset()->tileWidth),  ceil(((double)y - 4) / MapManager::currentMap->tileset()->tileHeight))] == tile);
+}
+
+bool inZones(s16 x, s16 y, u16 tiles[]) {
+	for(u16 i = 0 ; tiles[i] != 0 ; i++) {
+		if(inZone(x, y, tiles[i])) return true;
+	}
+	
+	return false;
+}
+

@@ -22,6 +22,17 @@
 
 #define NB_CHARACTERS 1
 
+#define NB_TILESETS 3
+#define NB_ZONES 3
+#define NB_DOORS 12
+
+#define DEFAULT_MAP_WIDTH 40
+#define DEFAULT_MAP_HEIGHT 30
+
+#define OVERWORLD_SIZE 2
+#define INDOOR_SIZE 3
+#define CAVE_1_SIZE 2
+
 #ifdef __ANDROID__
 	#define VIEWPORT
 	#define PAD

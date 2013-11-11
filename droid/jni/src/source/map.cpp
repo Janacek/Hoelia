@@ -25,6 +25,7 @@
 #include "SDL_headers.h"
 
 #include "types.h"
+#include "color.h"
 #include "timer.h"
 #include "image.h"
 #include "window.h"

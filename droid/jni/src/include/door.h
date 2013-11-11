@@ -17,35 +17,15 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	
 ---------------------------------------------------------------------------------*/
-#ifndef MAPMANAGER_H
-#define MAPMANAGER_H
+#ifndef DOOR_H
+#define DOOR_H
 
-#define MAP_POS(x, y, zone) (u16)((x) + (y) * sqrt((double)MapManager::zonesSizes[zone]))
+typedef struct {
+	u16 mapZone;
+	u16 mapID;
+	s16 x, y;
+	CharacterDirection direction;
+	s16 nextDoorID;
+} Door;
 
-namespace MapManager {
-	void init();
-	void free();
-	
-	void initTilesets();
-	void initMaps();
-	
-	extern Tileset **tilesets;
-	extern Map ***zones;
-	
-	extern u16 zonesSizes[NB_ZONES];
-	
-	extern u16 nonPassableTiles[13];
-	extern u16 changeMapTiles[3];
-	
-	extern Map *currentMap;
-}
-
-// Get map id from area
-u16 _mid(u16 area, u16 id);
-
-bool inTable(u16 tiles[], u16 id);
-bool inTiles(s16 tileX, s16 tileY, u16 tiles[]);
-bool inZone(s16 x, s16 y, u16 tile);
-bool inZones(s16 x, s16 y, u16 tiles[]);
-
-#endif // MAPMANAGER_H
+#endif // DOOR_H

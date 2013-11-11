@@ -37,6 +37,8 @@
 #include "characterManager.h"
 #include "map.h"
 #include "mapManager.h"
+#include "door.h"
+#include "doorManager.h"
 #include "game.h"
 
 Game::Game() {
@@ -58,11 +60,15 @@ Game::Game() {
 	
 	MapManager::init();
 	
+	DoorManager::init();
+	
 	Interface::init();
 }
 
 Game::~Game() {
 	Interface::free();
+	
+	DoorManager::free();
 	
 	MapManager::free();
 	

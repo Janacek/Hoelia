@@ -20,6 +20,7 @@
 #include "SDL_headers.h"
 
 #include "types.h"
+#include "color.h"
 #include "window.h"
 #include "image.h"
 

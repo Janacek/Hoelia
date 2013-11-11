@@ -22,6 +22,7 @@
 #include "SDL_headers.h"
 
 #include "types.h"
+#include "color.h"
 #include "timer.h"
 #include "config.h"
 #include "window.h"
@@ -104,5 +105,25 @@ void Window::updateViewportPosition(s16 x, s16 y) {
 
 void Window::centerViewportWithObject(s16 x, s16 y, u16 w, u16 h) {
 	updateViewportPosition(x - (m_viewportW - w) / 2, y - (m_viewportH - h) / 2);
+}
+
+void Window::setRendererColor(Color color) {
+	SDL_SetRenderDrawColor(m_renderer, color.r, color.g, color.b, color.a);
+}
+
+void Window::drawRect(s16 x, s16 y, u16 w, u16 h, Color c) {
+	setRendererColor(c);
+	
+	SDL_Rect r = {x, y, w, h};
+	
+	SDL_RenderDrawRect(m_renderer, &r);
+}
+
+void Window::drawFillRect(s16 x, s16 y, u16 w, u16 h, Color c) {
+	setRendererColor(c);
+	
+	SDL_Rect r = {x, y, w, h};
+	
+	SDL_RenderFillRect(m_renderer, &r);
 }
 

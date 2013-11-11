@@ -43,8 +43,17 @@ class Map {
 		
 		u16 getTile(u16 tileX, u16 tileY);
 		
+		u16 id() const { return m_id; }
+		
+		Tileset *tileset() { return m_tileset; }
+		
 		u16 width() const { return m_width; }
 		u16 height() const { return m_height; }
+		
+		u16 x() const { return m_mapX; }
+		u16 y() const { return m_mapY; }
+		
+		u16 zone() const { return m_zone; }
 		
 		std::vector<Character*> *characters() { return &m_characters; }
 		

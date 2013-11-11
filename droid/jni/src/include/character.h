@@ -44,6 +44,12 @@ class Character : public Sprite {
 		
 		void render();
 		
+		// Collisions functions
+		//bool inNonPassableTile();
+		void mapCollisions();
+		void testCollisions();
+		void doorCollisions();
+		
 		u16 x() const { return m_x; }
 		u16 y() const { return m_y; }
 		
@@ -56,23 +62,35 @@ class Character : public Sprite {
 		static u16 counter;
 		
 	protected:
-		u16 m_id;
-		
-		CharacterType m_type;
-		
-		u16 m_x;
-		u16 m_y;
-		
-		s8 m_vx;
-		s8 m_vy;
-		
-		CharacterDirection m_direction;
-		
-		u16 m_mapID;
-		
-		bool m_canMove;
-		bool m_canTurn;
-		bool m_moving;
+		/* Informations */
+			u16 m_id;
+			
+			CharacterType m_type;
+			
+		/* Position */
+			u16 m_x;
+			u16 m_y;
+			
+			s8 m_vx;
+			s8 m_vy;
+			
+			CharacterDirection m_direction;
+			
+			u16 m_mapID;
+			
+		/* Collisions */
+			bool m_inCollision;
+			bool m_inDoor;
+			
+			s16 m_hitboxX;
+			s16 m_hitboxY;
+			u16 m_hitboxW;
+			u16 m_hitboxH;
+			
+		/* Movement */
+			bool m_canMove;
+			bool m_canTurn;
+			bool m_moving;
 };
 
 #endif // CHARACTER_H

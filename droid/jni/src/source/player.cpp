@@ -86,6 +86,9 @@ void Player::move() {
 		}
 	}
 	
+	testCollisions();
+	doorCollisions();
+	
 	m_x += m_vx;
 	m_y += m_vy;
 	
