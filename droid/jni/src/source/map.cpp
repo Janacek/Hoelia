@@ -27,6 +27,7 @@
 #include "types.h"
 #include "timer.h"
 #include "image.h"
+#include "window.h"
 #include "animation.h"
 #include "sprite.h"
 #include "character.h"
@@ -82,6 +83,10 @@ void Map::renderTile(u16 tileX, u16 tileY) {
 	// Get absolute coordinates
 	u16 posX = (tileX + m_mapX * m_width) * m_tileset->tileWidth;
 	u16 posY = (tileY + m_mapY * m_height) * m_tileset->tileHeight;
+			
+	// If the tile isn't in the viewport: don't display it
+	if(posX < Window::main->viewportX() - m_tileset->tileWidth * (int)ceil((double)Window::main->viewportW() / (double)Window::main->viewportH()) || posX > Window::main->viewportX() + Window::main->viewportW()) return;
+	if(posY < Window::main->viewportY() - m_tileset->tileHeight * (int)ceil((double)Window::main->viewportW() / (double)Window::main->viewportH()) || posY > Window::main->viewportY() + Window::main->viewportH()) return;
 	
 	u16 tileID = getTile(tileX, tileY);
 	

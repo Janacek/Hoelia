@@ -29,6 +29,8 @@
 #include "animation.h"
 #include "sprite.h"
 #include "character.h"
+#include "player.h"
+#include "characterManager.h"
 #include "map.h"
 #include "mapManager.h"
 
@@ -38,14 +40,12 @@ Window::Window(const char *caption, u16 width, u16 height) {
 	m_width = width;
 	m_height = height;
 	
-	// Initialize window
 	m_window = SDL_CreateWindow(caption, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, m_width, m_height, SDL_WINDOW_SHOWN);
 	if(!m_window) {
 		fprintf(stderr, "Error while initializing window: %s\n", SDL_GetError());
 		exit(EXIT_FAILURE);
 	}
 	
-	// Initialize renderer
 	m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
 	if(!m_renderer) {
 		fprintf(stderr, "Renderer couldn't be created: %s\n", SDL_GetError());
@@ -56,15 +56,12 @@ Window::Window(const char *caption, u16 width, u16 height) {
 	m_viewportY = 0;
 	
 #ifndef VIEWPORT
-	// Initialize viewport size
 	m_viewportW = m_width;
 	m_viewportH = m_height;
 #else
-	// Initialize viewport size
 	m_viewportW = m_width / 2;
 	m_viewportH = m_height / 2;
 	
-	// Set viewport
 	SDL_RenderSetLogicalSize(m_renderer, m_viewportW, m_viewportH);
 #endif
 }
@@ -79,12 +76,12 @@ void Window::clear() {
 }
 
 void Window::update() {
-/*#ifdef VIEWPORT
-	centerViewportWithObject(CharacterManager::player()->x(),
-							 CharacterManager::player()->y(),
-							 CharacterManager::player()->frameWidth(),
-							 CharacterManager::player()->frameHeight());
-#endif*/
+#ifdef VIEWPORT
+	centerViewportWithObject(CharacterManager::player->x(),
+							 CharacterManager::player->y(),
+							 CharacterManager::player->frameWidth(),
+							 CharacterManager::player->frameHeight());
+#endif
 	
 	SDL_RenderPresent(m_renderer);
 }

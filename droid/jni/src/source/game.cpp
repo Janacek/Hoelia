@@ -22,6 +22,7 @@
 #include "SDL_headers.h"
 
 #include "types.h"
+#include "config.h"
 #include "timer.h"
 #include "color.h"
 #include "keyboard.h"
@@ -105,7 +106,11 @@ void Game::mainLoop() {
 		
 		Keyboard::update();
 		
+#ifdef VIEWPORT
+		MapManager::currentMap->render();
+#else
 		MapManager::currentMap->update();
+#endif
 		
 		CharacterManager::player->move();
 		CharacterManager::player->render();
