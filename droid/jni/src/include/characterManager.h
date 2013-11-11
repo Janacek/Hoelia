@@ -26,7 +26,13 @@ namespace CharacterManager {
 	
 	std::vector<Character*> getCharactersInMap(u16 id);
 	
-	extern Player *player;
+	bool sortCharacters(Character *c1, Character *c2);
+	
+	void moveCharacters();
+	
+	void renderCharacters();
+	
+	Player *player();
 	
 	extern Character **characters;
 };

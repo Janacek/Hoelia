@@ -46,6 +46,8 @@ class Map {
 		u16 width() const { return m_width; }
 		u16 height() const { return m_height; }
 		
+		std::vector<Character*> *characters() { return &m_characters; }
+		
 		// Number of maps initialized
 		static u16 counter;
 		

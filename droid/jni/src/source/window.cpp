@@ -77,10 +77,10 @@ void Window::clear() {
 
 void Window::update() {
 #ifdef VIEWPORT
-	centerViewportWithObject(CharacterManager::player->x(),
-							 CharacterManager::player->y(),
-							 CharacterManager::player->frameWidth(),
-							 CharacterManager::player->frameHeight());
+	centerViewportWithObject(CharacterManager::player()->x(),
+							 CharacterManager::player()->y(),
+							 CharacterManager::player()->frameWidth(),
+							 CharacterManager::player()->frameHeight());
 #endif
 	
 	SDL_RenderPresent(m_renderer);

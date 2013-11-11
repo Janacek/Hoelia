@@ -112,8 +112,8 @@ void Game::mainLoop() {
 		MapManager::currentMap->update();
 #endif
 		
-		CharacterManager::player->move();
-		CharacterManager::player->render();
+		CharacterManager::moveCharacters();
+		CharacterManager::renderCharacters();
 		
 		Interface::renderHUD();
 		

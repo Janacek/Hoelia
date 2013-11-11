@@ -17,6 +17,7 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	
 ---------------------------------------------------------------------------------*/
+#include <algorithm>
 #include <vector>
 
 #include "SDL_headers.h"
@@ -30,23 +31,19 @@
 #include "character.h"
 #include "player.h"
 #include "characterManager.h"
-
-Player *CharacterManager::player = NULL;
+#include "map.h"
+#include "mapManager.h"
 
 Character **CharacterManager::characters = NULL;
 
 void CharacterManager::init() {
-	player = new Player(17 << 4, 21 << 4, DIR_RIGHT, 0);
-	
 	characters = new Character*[NB_CHARACTERS];
 	
-	characters[0] = player;
+	characters[0] = new Player(17 << 4, 21 << 4, DIR_RIGHT, 0);
 }
 
 void CharacterManager::free() {
 	delete[] characters;
-	
-	delete player;
 }
 
 
@@ -61,5 +58,30 @@ std::vector<Character*> CharacterManager::getCharactersInMap(u16 id) {
 	}
 	
 	return c;
+}
+
+
+bool CharacterManager::sortCharacters(Character *c1, Character *c2) {
+	return (c1->y() < c2->y());
+}
+
+void CharacterManager::moveCharacters() {
+	std::vector<Character*> *v = MapManager::currentMap->characters();
+	for(std::vector<Character*>::iterator it = v->begin() ; it != v->end() ; it++) {
+		(*it)->move();
+	}
+}
+
+void CharacterManager::renderCharacters() {
+	std::vector<Character*> *v = MapManager::currentMap->characters();
+	std::sort(v->begin(), v->end(), sortCharacters);
+	for(std::vector<Character*>::iterator it = v->begin() ; it != v->end() ; it++) {
+		if((*it)->isPlayer()) ((Player*)(*it))->action();
+		(*it)->render();
+	}
+}
+
+Player *CharacterManager::player() {
+	return (Player*)characters[0];
 }
 
