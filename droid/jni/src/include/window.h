@@ -29,7 +29,7 @@ class Window {
 		void clear();
 		
 		// Update render
-		void update();
+		void update(bool viewport = true);
 			
 		void updateViewportPosition(s16 x, s16 y);
 		

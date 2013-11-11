@@ -49,6 +49,11 @@ class Character : public Sprite {
 		void testCollisions();
 		void doorCollisions();
 		
+		// Other movement functions
+		void moveX(u16 x) { m_x += x; }
+		void moveY(u16 y) { m_y += y; }
+		void stop() { m_vx = 0; m_vy = 0; }
+		
 		u16 x() const { return m_x; }
 		u16 y() const { return m_y; }
 		

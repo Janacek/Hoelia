@@ -112,6 +112,8 @@ void Game::mainLoop() {
 		
 		Keyboard::update();
 		
+		scroll();
+		
 #ifdef VIEWPORT
 		MapManager::currentMap->render();
 #else
@@ -124,6 +126,65 @@ void Game::mainLoop() {
 		Interface::renderHUD();
 		
 		Window::main->update();
+	}
+}
+
+void Game::scroll() {
+	s16 moveX = 0;
+	s16 moveY = 0;
+	u16 iMax = 0;
+	s16 playerX = 0;
+	s16 playerY = 0;
+	
+	if(CharacterManager::player()->x() > (MapManager::currentMap->width() - 1) * 16 + 1)		{ moveX =  16; iMax = 40; playerX = -16; }
+	else if(CharacterManager::player()->x() < -2)												{ moveX = -16; iMax = 40; playerX =  16; }
+	else if(CharacterManager::player()->y() > (MapManager::currentMap->height() - 1) * 16 + 1)	{ moveY =  16; iMax = 30; playerY = -16; }
+	else if(CharacterManager::player()->y() < -2)												{ moveY = -16; iMax = 30; playerY =  16; }
+	else																						{ return; }
+	
+	// Reset player movement vectors
+	CharacterManager::player()->stop();
+	
+	for(u16 i = 0 ; i < iMax ; i++) {
+		// Move characters
+		for(std::vector<Character*>::iterator it = MapManager::currentMap->characters()->begin() ; it != MapManager::currentMap->characters()->end() ; it++) {
+			if((i & 1) || !(i & 11)) (*it)->moveX(playerX); else (*it)->moveX(playerX - playerX / 16);
+			if((i & 1) || !(i & 15)) (*it)->moveY(playerY); else (*it)->moveY(playerY - playerY / 16);
+		}
+		
+		// Move view to scroll
+		Map::viewRect.x += moveX;
+		Map::viewRect.y += moveY;
+		
+#ifdef VIEWPORT
+		// Update viewport
+		Window::main->updateViewportPosition(Window::main->viewportX() - moveX, Window::main->viewportY() - moveY);
+#endif
+		
+		// Refresh display on time in two
+		if(i & 1) {
+			Window::main->clear();
+			MapManager::refreshMaps(MapManager::zones[MapManager::currentMap->zone()], moveX, moveY);
+			CharacterManager::renderCharacters();
+			Interface::renderHUD();
+			Window::main->update(false);
+		}
+	}
+	
+	Map *tempOldMap = MapManager::currentMap;
+	
+	// Update currentMap variable
+	if(MapManager::currentMap != NULL
+	&& MapManager::currentMap->x() + moveX / 16 >= 0
+	&& MapManager::currentMap->x() + moveX / 16 < MapManager::zonesSizes[MapManager::currentMap->zone()]
+	&& MapManager::currentMap->y() + moveY / 16 >= 0
+	&& MapManager::currentMap->y() + moveY / 16 < MapManager::zonesSizes[MapManager::currentMap->zone()]) MapManager::currentMap = MapManager::zones[MapManager::currentMap->zone()][MAP_POS(MapManager::currentMap->x() + moveX / 16, MapManager::currentMap->y() + moveY / 16, MapManager::currentMap->zone())];
+	
+	printf("Scrolling: zones[%d][MAP_POS(%d, %d, %d)]\n", tempOldMap->zone(), tempOldMap->x() + moveX / 16, tempOldMap->y() + moveY / 16, tempOldMap->zone());
+	
+	if(MapManager::currentMap == NULL) {
+		fprintf(stderr, "Bad scrolling: zones[%d][MAP_POS(%d, %d, %d)]\n", tempOldMap->zone(), tempOldMap->x() + moveX / 16, tempOldMap->y() + moveY / 16, tempOldMap->zone());
+		exit(EXIT_FAILURE);
 	}
 }
 

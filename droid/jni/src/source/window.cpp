@@ -76,12 +76,12 @@ void Window::clear() {
 	SDL_RenderClear(m_renderer);
 }
 
-void Window::update() {
+void Window::update(bool viewport) {
 #ifdef VIEWPORT
-	centerViewportWithObject(CharacterManager::player()->x(),
-							 CharacterManager::player()->y(),
-							 CharacterManager::player()->frameWidth(),
-							 CharacterManager::player()->frameHeight());
+	if(viewport) centerViewportWithObject(CharacterManager::player()->x(),
+										  CharacterManager::player()->y(),
+										  CharacterManager::player()->frameWidth(),
+										  CharacterManager::player()->frameHeight());
 #endif
 	
 	SDL_RenderPresent(m_renderer);

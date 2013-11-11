@@ -29,6 +29,8 @@ namespace MapManager {
 	void initTilesets();
 	void initMaps();
 	
+	void refreshMaps(Map **maps, s16 moveX, s16 moveY);
+	
 	extern Tileset **tilesets;
 	extern Map ***zones;
 	
@@ -40,8 +42,8 @@ namespace MapManager {
 	extern Map *currentMap;
 }
 
-// Get map id from area
-u16 _mid(u16 area, u16 id);
+// Get map id from zone
+u16 _mid(u16 zone, u16 id);
 
 bool inTable(u16 tiles[], u16 id);
 bool inTiles(s16 tileX, s16 tileY, u16 tiles[]);

@@ -27,6 +27,8 @@ class Game {
 		
 		void mainLoop();
 		
+		void scroll();
+		
 	private:
 		// Game states
 		bool m_continue;

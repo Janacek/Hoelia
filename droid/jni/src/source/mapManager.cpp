@@ -157,8 +157,8 @@ void MapManager::initMaps() {
 	
 	/* OVERWORLD */
 	zones[0][MAP_POS(0, 0, 0)] = new Map("maps/a1.map", tilesets[0], DEFAULT_MAP_WIDTH, DEFAULT_MAP_HEIGHT, 0, 0, 0);
-	zones[0][MAP_POS(1, 0, 0)] = new Map("maps/b1.map", tilesets[0], DEFAULT_MAP_WIDTH, DEFAULT_MAP_HEIGHT, 1, 0, 0);
-	zones[0][MAP_POS(0, 1, 0)] = new Map("maps/a2.map", tilesets[0], DEFAULT_MAP_WIDTH, DEFAULT_MAP_HEIGHT, 0, 1, 0);
+	zones[0][MAP_POS(1, 0, 0)] = new Map("maps/a2.map", tilesets[0], DEFAULT_MAP_WIDTH, DEFAULT_MAP_HEIGHT, 1, 0, 0);
+	zones[0][MAP_POS(0, 1, 0)] = new Map("maps/b1.map", tilesets[0], DEFAULT_MAP_WIDTH, DEFAULT_MAP_HEIGHT, 0, 1, 0);
 	zones[0][MAP_POS(1, 1, 0)] = new Map("maps/b2.map", tilesets[0], DEFAULT_MAP_WIDTH, DEFAULT_MAP_HEIGHT, 1, 1, 0);
 	
 	/* INDOOR */
@@ -168,8 +168,8 @@ void MapManager::initMaps() {
 	
 	/* CAVE 1 */
 	zones[2][MAP_POS(0, 0, 2)] = new Map("maps/ca1a1.map", tilesets[2], DEFAULT_MAP_WIDTH, DEFAULT_MAP_HEIGHT, 0, 0, 2);
-	zones[2][MAP_POS(1, 0, 2)] = NULL;
-	zones[2][MAP_POS(0, 1, 2)] = new Map("maps/ca1a2.map", tilesets[2], DEFAULT_MAP_WIDTH, DEFAULT_MAP_HEIGHT, 0, 1, 2);
+	zones[2][MAP_POS(1, 0, 2)] = new Map("maps/ca1a2.map", tilesets[2], DEFAULT_MAP_WIDTH, DEFAULT_MAP_HEIGHT, 1, 0, 2);
+	zones[2][MAP_POS(0, 1, 2)] = NULL;
 	zones[2][MAP_POS(1, 1, 2)] = new Map("maps/ca1b2.map", tilesets[2], DEFAULT_MAP_WIDTH, DEFAULT_MAP_HEIGHT, 1, 1, 2);
 }
 
@@ -186,9 +186,26 @@ void MapManager::free() {
 	delete[] tilesets;
 }
 
-u16 _mid(u16 area, u16 id) {
+void MapManager::refreshMaps(Map **maps, s16 moveX, s16 moveY) {
+	// Get next map
+	Map *nextMap = maps[MAP_POS(currentMap->x() + moveX / 16, currentMap->y() + moveY / 16, currentMap->zone())];
+	
+	// Next map must be in the map
+	if(nextMap == NULL
+	   || MAP_POS(currentMap->x() + moveX / 16, currentMap->y(), currentMap->zone()) < 0
+	   || MAP_POS(currentMap->x() + moveX / 16, currentMap->y(), currentMap->zone()) >= zonesSizes[currentMap->zone()]
+	   || MAP_POS(currentMap->x(), currentMap->y() + moveY / 16, currentMap->zone()) < 0
+	   || MAP_POS(currentMap->x(), currentMap->y() + moveY / 16, currentMap->zone()) >= zonesSizes[currentMap->zone()])
+		return;
+	
+	// Render maps
+	currentMap->render();
+	nextMap->render();
+}
+
+u16 _mid(u16 zone, u16 id) {
 	u16 tempID = id;
-	for(u16 i = 0 ; i < area ; i++)
+	for(u16 i = 0 ; i < zone ; i++)
 		tempID += MapManager::zonesSizes[i];
 	return tempID;
 }

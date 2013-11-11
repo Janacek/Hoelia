@@ -25,6 +25,7 @@
 #include "SDL_headers.h"
 
 #include "types.h"
+#include "config.h"
 #include "color.h"
 #include "timer.h"
 #include "image.h"
@@ -37,6 +38,8 @@
 #include "map.h"
 
 u16 Map::counter = 0;
+
+SDL_Rect Map::viewRect = {0, 0, DEFAULT_MAP_WIDTH << 4, DEFAULT_MAP_HEIGHT << 4};
 
 Map::Map(const char *filename, Tileset *tileset, u16 width, u16 height, u16 mapX, u16 mapY, u16 zone) {
 	m_id = counter;
@@ -82,8 +85,8 @@ Map::~Map() {
 
 void Map::renderTile(u16 tileX, u16 tileY) {
 	// Get absolute coordinates
-	u16 posX = (tileX + m_mapX * m_width) * m_tileset->tileWidth;
-	u16 posY = (tileY + m_mapY * m_height) * m_tileset->tileHeight;
+	u16 posX = (tileX + m_mapX * m_width) * m_tileset->tileWidth - viewRect.x;
+	u16 posY = (tileY + m_mapY * m_height) * m_tileset->tileHeight - viewRect.y;
 			
 	// If the tile isn't in the viewport: don't display it
 	if(posX < Window::main->viewportX() - m_tileset->tileWidth * (int)ceil((double)Window::main->viewportW() / (double)Window::main->viewportH()) || posX > Window::main->viewportX() + Window::main->viewportW()) return;

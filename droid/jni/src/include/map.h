@@ -60,6 +60,8 @@ class Map {
 		// Number of maps initialized
 		static u16 counter;
 		
+		static SDL_Rect viewRect;
+		
 	private:
 		u16 m_id;
 		
