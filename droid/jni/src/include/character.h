@@ -17,54 +17,62 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	
 ---------------------------------------------------------------------------------*/
-#ifndef MAP_H
-#define MAP_H
+#ifndef CHARACTER_H
+#define CHARACTER_H
 
-struct Tileset {
-	Tileset() : tileWidth(16), tileHeight(16) {}
-	
-	Image *tiles;
-	u16 *info; // Informations for collisions
-	u16 tileWidth;
-	u16 tileHeight;
-};
+typedef enum {
+	CHARACTER_PLAYER,
+	CHARACTER_NPC,
+	CHARACTER_MONSTER
+} CharacterType;
 
-typedef struct Tileset Tileset;
+typedef enum {
+	DIR_DOWN,
+	DIR_RIGHT,
+	DIR_LEFT,
+	DIR_UP
+} CharacterDirection;
 
-class Map {
+class Character : public Sprite {
 	public:
-		Map(const char *filename, Tileset *tileset, u16 width, u16 height, u16 mapX, u16 mapY, u16 zone = 0);
-		~Map();
+		Character(const char *filename, CharacterType type, u16 x, u16 y, CharacterDirection direction, u16 mapID, u16 frameWidth = 16, u16 frameHeight = 16);
+		virtual ~Character();
 		
-		void renderTile(u16 tileX, u16 tileY);
+		virtual void move() = 0;
+		
+		virtual void action() = 0;
+		
 		void render();
 		
-		void update();
+		u16 x() const { return m_x; }
+		u16 y() const { return m_y; }
 		
-		u16 getTile(u16 tileX, u16 tileY);
+		u16 mapID() const { return m_mapID; }
 		
-		u16 width() const { return m_width; }
-		u16 height() const { return m_height; }
+		bool isPlayer()  { return m_type == CHARACTER_PLAYER;	}
+		bool isNPC()	 { return m_type == CHARACTER_NPC;		}
+		bool isMonster() { return m_type == CHARACTER_MONSTER;  }
 		
-		// Number of maps initialized
 		static u16 counter;
 		
-	private:
+	protected:
 		u16 m_id;
 		
-		Tileset *m_tileset;
+		CharacterType m_type;
 		
-		u16 m_width;
-		u16 m_height;
+		u16 m_x;
+		u16 m_y;
 		
-		u16 m_mapX;
-		u16 m_mapY;
+		s8 m_vx;
+		s8 m_vy;
 		
-		u16 m_zone;
+		CharacterDirection m_direction;
 		
-		u16 *m_data;
+		u16 m_mapID;
 		
-		std::vector<Character*> m_characters;
+		bool m_canMove;
+		bool m_canTurn;
+		bool m_moving;
 };
 
-#endif // MAP_H
+#endif // CHARACTER_H

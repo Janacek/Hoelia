@@ -17,14 +17,18 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	
 ---------------------------------------------------------------------------------*/
-#ifndef CONFIG_H
-#define CONFIG_H
+#ifndef CHARACTERMANAGER_H
+#define CHARACTERMANAGER_H
 
-#define NB_CHARACTERS 1
+namespace CharacterManager {
+	void init();
+	void free();
+	
+	std::vector<Character*> getCharactersInMap(u16 id);
+	
+	extern Player *player;
+	
+	extern Character **characters;
+};
 
-#ifdef __ANDROID__
-	#define VIEWPORT
-	#define PAD
-#endif
-
-#endif // CONFIG_H
+#endif // CHARACTERMANAGER_H

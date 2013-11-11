@@ -17,14 +17,20 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	
 ---------------------------------------------------------------------------------*/
-#ifndef CONFIG_H
-#define CONFIG_H
+#ifndef PLAYER_H
+#define PLAYER_H
 
-#define NB_CHARACTERS 1
+class Player : public Character {
+	public:
+		Player(u16 x, u16 y, CharacterDirection direction, u16 mapID);
+		~Player();
+		
+		void move();
+		
+		void action() {}
+		
+	private:
+		
+};
 
-#ifdef __ANDROID__
-	#define VIEWPORT
-	#define PAD
-#endif
-
-#endif // CONFIG_H
+#endif // PLAYER_H

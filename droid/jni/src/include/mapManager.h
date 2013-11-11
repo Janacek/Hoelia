@@ -33,7 +33,7 @@
 #define MAP_POS(x, y, zone) (u16)((x) + (y) * sqrt((double)MapManager::zonesSizes[zone]))
 
 namespace MapManager {
-	void initAll();
+	void init();
 	void free();
 	
 	void initTilesets();

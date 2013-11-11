@@ -23,45 +23,43 @@
 
 #include "types.h"
 #include "config.h"
-#include "color.h"
-#include "window.h"
 #include "timer.h"
 #include "image.h"
 #include "animation.h"
 #include "sprite.h"
-#include "font.h"
-#include "interface.h"
-#include "game.h"
+#include "character.h"
+#include "player.h"
+#include "characterManager.h"
 
-Font *Interface::defaultFont = NULL;
-Image *Interface::pad = NULL;
-Image *Interface::buttonA = NULL;
+Player *CharacterManager::player = NULL;
 
-void Interface::init() {
-	defaultFont = new Font("fonts/vani.ttf");
+Character **CharacterManager::characters = NULL;
+
+void CharacterManager::init() {
+	player = new Player(17 << 4, 21 << 4, DIR_RIGHT, 0);
 	
-	pad = new Image("graphics/interface/pad.png");
-	pad->setAlpha(175);
+	characters = new Character*[NB_CHARACTERS];
 	
-	buttonA = new Image("graphics/interface/a.png");
-	buttonA->setAlpha(175);
+	characters[0] = player;
 }
 
-void Interface::free() {
-	delete defaultFont;
-	delete pad;
-	delete buttonA;
-}
-
-void Interface::renderPad() {
-	pad->render(Window::main->viewportX() + 16, Window::main->viewportY() + Window::main->viewportH() - pad->height() - 16, pad->width(), pad->height());
+void CharacterManager::free() {
+	delete[] characters;
 	
-	buttonA->render(Window::main->viewportX() + Window::main->viewportW() - buttonA->width() - 16, Window::main->viewportY() + Window::main->viewportH() - buttonA->height() - 16, buttonA->width(), buttonA->height());
+	delete player;
 }
 
-void Interface::renderHUD() {
-#ifdef PAD
-	renderPad();
-#endif
+
+std::vector<Character*> CharacterManager::getCharactersInMap(u16 id) {
+	std::vector<Character*> c;
+	
+	for(u16 i = 0 ; i < NB_CHARACTERS ; i++) {
+		if(characters[i]->mapID() == id
+		|| characters[i]->isPlayer()) {
+			c.push_back(characters[i]);
+		}
+	}
+	
+	return c;
 }
 

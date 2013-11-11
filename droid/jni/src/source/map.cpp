@@ -20,11 +20,18 @@
 #include <cstdio>
 #include <cstdlib>
 #include <sys/stat.h>
+#include <vector>
 
 #include "SDL_headers.h"
 
 #include "types.h"
+#include "timer.h"
 #include "image.h"
+#include "animation.h"
+#include "sprite.h"
+#include "character.h"
+#include "player.h"
+#include "characterManager.h"
 #include "map.h"
 
 u16 Map::counter = 0;
@@ -43,7 +50,6 @@ Map::Map(const char *filename, Tileset *tileset, u16 width, u16 height, u16 mapX
 	
 	m_zone = zone;
 	
-	// Make a temporary variable to get map file data
 	u16* data = (u16*)malloc(m_width * m_height * sizeof(u16));
 	
 	// Get filesize for SDL_RWread
@@ -55,7 +61,6 @@ Map::Map(const char *filename, Tileset *tileset, u16 width, u16 height, u16 mapX
 		filesize = file_status.st_size;
 	}
 	
-	// Load map from file
 	SDL_RWops *f = SDL_RWFromFile(filename, "r");
 	if(!f) {
 		fprintf(stderr, "Unable to open file %s: %s\n", filename, SDL_GetError());
@@ -64,8 +69,9 @@ Map::Map(const char *filename, Tileset *tileset, u16 width, u16 height, u16 mapX
 	SDL_RWread(f, data, 2, filesize);
 	SDL_RWclose(f);
 	
-	// Save data in current map
 	m_data = data;
+	
+	m_characters = CharacterManager::getCharactersInMap(m_id);
 }
 
 Map::~Map() {
@@ -77,14 +83,11 @@ void Map::renderTile(u16 tileX, u16 tileY) {
 	u16 posX = (tileX + m_mapX * m_width) * m_tileset->tileWidth;
 	u16 posY = (tileY + m_mapY * m_height) * m_tileset->tileHeight;
 	
-	// Get tile id
 	u16 tileID = getTile(tileX, tileY);
 	
-	// Get tile position in the tileset
 	u16 tilesetY = (tileID / (m_tileset->tiles->width() / m_tileset->tileHeight)) * m_tileset->tileHeight;
 	u16 tilesetX = (tileID - (tilesetY / m_tileset->tileHeight) * (m_tileset->tiles->width() / m_tileset->tileHeight)) * m_tileset->tileWidth;
 	
-	// Render the tile
 	m_tileset->tiles->render(posX, posY, m_tileset->tileWidth, m_tileset->tileHeight, tilesetX, tilesetY, m_tileset->tileWidth, m_tileset->tileHeight);
 }
 
@@ -92,6 +95,19 @@ void Map::render() {
 	for(u16 y = 0 ; y < m_height ; y++) {
 		for(u16 x = 0 ; x < m_width ; x++) {
 			renderTile(x, y);
+		}
+	}
+}
+
+void Map::update() {
+	for(std::vector<Character*>::iterator it = m_characters.begin() ; it != m_characters.end() ; it++) {
+		u16 x = (*it)->x() / m_tileset->tileWidth;
+		u16 y = (*it)->y() / m_tileset->tileHeight;
+		
+		for(s8 i = -((*it)->frameWidth() / m_tileset->tileWidth) + 1 ; i <= (*it)->frameWidth() / m_tileset->tileWidth ; i++) {
+			for(s8 j = -((*it)->frameHeight() / m_tileset->tileHeight) + 1 ; j <= (*it)->frameHeight() / m_tileset->tileHeight ; j++) {
+				renderTile(x + i, y + j);
+			}
 		}
 	}
 }

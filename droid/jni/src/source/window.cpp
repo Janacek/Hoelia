@@ -17,12 +17,18 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	
 ---------------------------------------------------------------------------------*/
+#include <vector>
+
 #include "SDL_headers.h"
 
 #include "types.h"
+#include "timer.h"
 #include "config.h"
 #include "window.h"
 #include "image.h"
+#include "animation.h"
+#include "sprite.h"
+#include "character.h"
 #include "map.h"
 #include "mapManager.h"
 

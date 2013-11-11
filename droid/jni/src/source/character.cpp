@@ -22,46 +22,43 @@
 #include "SDL_headers.h"
 
 #include "types.h"
-#include "config.h"
-#include "color.h"
-#include "window.h"
 #include "timer.h"
 #include "image.h"
 #include "animation.h"
 #include "sprite.h"
-#include "font.h"
-#include "interface.h"
-#include "game.h"
+#include "character.h"
 
-Font *Interface::defaultFont = NULL;
-Image *Interface::pad = NULL;
-Image *Interface::buttonA = NULL;
+u16 Character::counter = 0;
 
-void Interface::init() {
-	defaultFont = new Font("fonts/vani.ttf");
+Character::Character(const char *filename, CharacterType type, u16 x, u16 y, CharacterDirection direction, u16 mapID, u16 frameWidth, u16 frameHeight) : Sprite(filename, frameWidth, frameHeight) {
+	m_id = counter;
+	counter++;
 	
-	pad = new Image("graphics/interface/pad.png");
-	pad->setAlpha(175);
+	m_type = type;
 	
-	buttonA = new Image("graphics/interface/a.png");
-	buttonA->setAlpha(175);
+	m_x = x;
+	m_y = y;
+	
+	m_vx = 0;
+	m_vy = 0;
+	
+	m_direction = direction;
+	
+	m_mapID = mapID;
+	
+	m_canMove = true;
+	m_canTurn = true;
+	m_moving = false;
 }
 
-void Interface::free() {
-	delete defaultFont;
-	delete pad;
-	delete buttonA;
+Character::~Character() {
 }
 
-void Interface::renderPad() {
-	pad->render(Window::main->viewportX() + 16, Window::main->viewportY() + Window::main->viewportH() - pad->height() - 16, pad->width(), pad->height());
-	
-	buttonA->render(Window::main->viewportX() + Window::main->viewportW() - buttonA->width() - 16, Window::main->viewportY() + Window::main->viewportH() - buttonA->height() - 16, buttonA->width(), buttonA->height());
+void Character::move() {
 }
 
-void Interface::renderHUD() {
-#ifdef PAD
-	renderPad();
-#endif
+void Character::render() {
+	if(m_moving) playAnimation(m_x, m_y, m_direction);
+	else		 drawFrame(m_x, m_y, m_direction);
 }
 

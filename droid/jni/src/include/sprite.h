@@ -35,6 +35,9 @@ class Sprite : public Image {
 		bool animationAtFrame(u16 anim, u16 frame);
 		void playAnimation(s16 x, s16 y, u16 anim);
 		
+		u16 frameWidth() const { return m_frameWidth; }
+		u16 frameHeight() const { return m_frameHeight; }
+		
 	protected:
 		u16 m_frameWidth;
 		u16 m_frameHeight;

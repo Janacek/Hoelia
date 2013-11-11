@@ -17,17 +17,25 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	
 ---------------------------------------------------------------------------------*/
+#include <vector>
+
 #include "SDL_headers.h"
 
 #include "types.h"
+#include "timer.h"
 #include "color.h"
 #include "keyboard.h"
 #include "window.h"
 #include "image.h"
-#include "map.h"
-#include "mapManager.h"
 #include "font.h"
 #include "interface.h"
+#include "animation.h"
+#include "sprite.h"
+#include "character.h"
+#include "player.h"
+#include "characterManager.h"
+#include "map.h"
+#include "mapManager.h"
 #include "game.h"
 
 Game::Game() {
@@ -45,20 +53,26 @@ Game::Game() {
 	m_continue = true;
 	m_paused = false;
 	
-	MapManager::initAll();
+	CharacterManager::init();
+	
+	MapManager::init();
 	
 	Interface::init();
 }
 
 Game::~Game() {
-	Interface::quit();
+	Interface::free();
 	
 	MapManager::free();
+	
+	CharacterManager::free();
 	
 	delete Window::main;
 }
 
 void Game::mainLoop() {
+	MapManager::currentMap->render();
+	
 	while(m_continue) {
 		SDL_Event event;
 		while(SDL_PollEvent(&event) != 0) {
@@ -91,9 +105,10 @@ void Game::mainLoop() {
 		
 		Keyboard::update();
 		
-		Window::main->clear();
+		MapManager::currentMap->update();
 		
-		MapManager::currentMap->render();
+		CharacterManager::player->move();
+		CharacterManager::player->render();
 		
 		Interface::renderHUD();
 		

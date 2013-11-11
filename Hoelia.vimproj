@@ -18,6 +18,8 @@ Hoelia=~/Projects/Hoelia CD=. filter=".gitignore *.c *.cpp *.h *.vim AUTHORS Cha
      SDL_headers.h
      animation.h
      animationManager.h
+	 character.h
+	 characterManager.h
      color.h
      config.h
      font.h
@@ -28,6 +30,7 @@ Hoelia=~/Projects/Hoelia CD=. filter=".gitignore *.c *.cpp *.h *.vim AUTHORS Cha
      keyboard.h
      map.h
      mapManager.h
+	 player.h
      sprite.h
      timer.h
      types.h
@@ -35,6 +38,8 @@ Hoelia=~/Projects/Hoelia CD=. filter=".gitignore *.c *.cpp *.h *.vim AUTHORS Cha
 	}
 	source=source {
      animationManager.cpp
+	 character.cpp
+	 characterManager.cpp
      color.cpp
      font.cpp
      game.cpp
@@ -45,6 +50,7 @@ Hoelia=~/Projects/Hoelia CD=. filter=".gitignore *.c *.cpp *.h *.vim AUTHORS Cha
      main.cpp
      map.cpp
      mapManager.cpp
+	 player.cpp
      sprite.cpp
      timer.cpp
      window.cpp

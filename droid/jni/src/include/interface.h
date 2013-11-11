@@ -22,7 +22,7 @@
 
 namespace Interface {
 	void init();
-	void quit();
+	void free();
 	
 	void renderPad();
 	

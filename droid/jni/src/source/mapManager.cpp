@@ -17,10 +17,16 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	
 ---------------------------------------------------------------------------------*/
+#include <vector>
+
 #include "SDL_headers.h"
 
 #include "types.h"
+#include "timer.h"
 #include "image.h"
+#include "animation.h"
+#include "sprite.h"
+#include "character.h"
 #include "map.h"
 #include "mapManager.h"
 
@@ -158,7 +164,7 @@ void MapManager::initMaps() {
 	zones[2][MAP_POS(1, 1, 2)] = new Map("maps/ca1b2.map", tilesets[2], DEFAULT_MAP_WIDTH, DEFAULT_MAP_HEIGHT, 1, 1, 2);
 }
 
-void MapManager::initAll() {
+void MapManager::init() {
 	initTilesets();
 	initMaps();
 	currentMap = zones[0][0];
