@@ -46,11 +46,11 @@ Game::Game() {
 	SDL_DisplayMode current;
 	SDL_GetCurrentDisplayMode(0, &current);
 	
-	__android_log_print(ANDROID_LOG_INFO, "Hoelia", "Current display: %dx%d", current.w, current.h);
+	info("Current display: %dx%d", current.w, current.h);
 	
-	Window::main = new Window("Hoelia", current.w, current.h);
+	Window::main = new Window(APP_NAME, current.w, current.h);
 #else
-	Window::main = new Window("Hoelia", 640, 480);
+	Window::main = new Window(APP_NAME, 640, 480);
 #endif
 	
 	m_continue = true;
@@ -78,6 +78,9 @@ Game::~Game() {
 }
 
 void Game::mainLoop() {
+	u32 lastTime = 0;
+	u32 actualTime = 0;
+	
 	MapManager::currentMap->render();
 	
 	while(m_continue) {
@@ -114,6 +117,12 @@ void Game::mainLoop() {
 		
 		scroll();
 		
+		actualTime = SDL_GetTicks();
+		if(actualTime - lastTime < 15) {
+			SDL_Delay(15 - (actualTime - lastTime));
+			continue;
+		}
+		
 #ifdef VIEWPORT
 		MapManager::currentMap->render();
 #else
@@ -126,6 +135,8 @@ void Game::mainLoop() {
 		Interface::renderHUD();
 		
 		Window::main->update();
+		
+		lastTime = actualTime;
 	}
 }
 
@@ -142,22 +153,18 @@ void Game::scroll() {
 	else if(CharacterManager::player()->y() < -2)												{ moveY = -16; iMax = 30; playerY =  16; }
 	else																						{ return; }
 	
-	// Reset player movement vectors
 	CharacterManager::player()->stop();
 	
 	for(u16 i = 0 ; i < iMax ; i++) {
-		// Move characters
 		for(std::vector<Character*>::iterator it = MapManager::currentMap->characters()->begin() ; it != MapManager::currentMap->characters()->end() ; it++) {
 			if((i & 1) || !(i & 11)) (*it)->moveX(playerX); else (*it)->moveX(playerX - playerX / 16);
 			if((i & 1) || !(i & 15)) (*it)->moveY(playerY); else (*it)->moveY(playerY - playerY / 16);
 		}
 		
-		// Move view to scroll
 		Map::viewRect.x += moveX;
 		Map::viewRect.y += moveY;
 		
 #ifdef VIEWPORT
-		// Update viewport
 		Window::main->updateViewportPosition(Window::main->viewportX() - moveX, Window::main->viewportY() - moveY);
 #endif
 		
@@ -176,14 +183,13 @@ void Game::scroll() {
 	// Update currentMap variable
 	if(MapManager::currentMap != NULL
 	&& MapManager::currentMap->x() + moveX / 16 >= 0
-	&& MapManager::currentMap->x() + moveX / 16 < MapManager::zonesSizes[MapManager::currentMap->zone()]
+	&& MapManager::currentMap->x() + moveX / 16 < sqrt(MapManager::zonesSizes[MapManager::currentMap->zone()])
 	&& MapManager::currentMap->y() + moveY / 16 >= 0
-	&& MapManager::currentMap->y() + moveY / 16 < MapManager::zonesSizes[MapManager::currentMap->zone()]) MapManager::currentMap = MapManager::zones[MapManager::currentMap->zone()][MAP_POS(MapManager::currentMap->x() + moveX / 16, MapManager::currentMap->y() + moveY / 16, MapManager::currentMap->zone())];
-	
-	printf("Scrolling: zones[%d][MAP_POS(%d, %d, %d)]\n", tempOldMap->zone(), tempOldMap->x() + moveX / 16, tempOldMap->y() + moveY / 16, tempOldMap->zone());
+	&& MapManager::currentMap->y() + moveY / 16 < sqrt(MapManager::zonesSizes[MapManager::currentMap->zone()]))
+		MapManager::currentMap = MapManager::zones[MapManager::currentMap->zone()][MAP_POS(MapManager::currentMap->x() + moveX / 16, MapManager::currentMap->y() + moveY / 16, MapManager::currentMap->zone())];
 	
 	if(MapManager::currentMap == NULL) {
-		fprintf(stderr, "Bad scrolling: zones[%d][MAP_POS(%d, %d, %d)]\n", tempOldMap->zone(), tempOldMap->x() + moveX / 16, tempOldMap->y() + moveY / 16, tempOldMap->zone());
+		error("Bad scrolling: zones[%d][MAP_POS(%d, %d, %d)]\n", tempOldMap->zone(), tempOldMap->x() + moveX / 16, tempOldMap->y() + moveY / 16, tempOldMap->zone());
 		exit(EXIT_FAILURE);
 	}
 }

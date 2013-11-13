@@ -35,7 +35,7 @@ typedef enum {
 
 class Character : public Sprite {
 	public:
-		Character(const char *filename, CharacterType type, u16 x, u16 y, CharacterDirection direction, u16 mapID, u16 frameWidth = 16, u16 frameHeight = 16);
+		Character(const char *filename, CharacterType type, s16 x, s16 y, CharacterDirection direction, u16 mapID, u16 frameWidth = 16, u16 frameHeight = 16);
 		virtual ~Character();
 		
 		virtual void move() = 0;
@@ -50,12 +50,12 @@ class Character : public Sprite {
 		void doorCollisions();
 		
 		// Other movement functions
-		void moveX(u16 x) { m_x += x; }
-		void moveY(u16 y) { m_y += y; }
+		void moveX(s16 x) { m_x += x; }
+		void moveY(s16 y) { m_y += y; }
 		void stop() { m_vx = 0; m_vy = 0; }
 		
-		u16 x() const { return m_x; }
-		u16 y() const { return m_y; }
+		s16 x() const { return m_x; }
+		s16 y() const { return m_y; }
 		
 		u16 mapID() const { return m_mapID; }
 		
@@ -72,8 +72,8 @@ class Character : public Sprite {
 			CharacterType m_type;
 			
 		/* Position */
-			u16 m_x;
-			u16 m_y;
+			s16 m_x;
+			s16 m_y;
 			
 			s8 m_vx;
 			s8 m_vy;

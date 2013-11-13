@@ -41,7 +41,7 @@
 
 u16 Character::counter = 0;
 
-Character::Character(const char *filename, CharacterType type, u16 x, u16 y, CharacterDirection direction, u16 mapID, u16 frameWidth, u16 frameHeight) : Sprite(filename, frameWidth, frameHeight) {
+Character::Character(const char *filename, CharacterType type, s16 x, s16 y, CharacterDirection direction, u16 mapID, u16 frameWidth, u16 frameHeight) : Sprite(filename, frameWidth, frameHeight) {
 	m_id = counter;
 	counter++;
 	

@@ -20,6 +20,8 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
+#define APP_NAME "Hoelia"
+
 #define NB_CHARACTERS 1
 
 #define NB_TILESETS 3
@@ -36,6 +38,16 @@
 #ifdef __ANDROID__
 	#define VIEWPORT
 	#define PAD
+	
+	#define info(txt...) __android_log_print(ANDROID_LOG_INFO, APP_NAME, txt)
+	#define debug(txt...) __android_log_print(ANDROID_LOG_DEBUG, APP_NAME, txt)
+	#define warn(txt...) __android_log_print(ANDROID_LOG_WARNING, APP_NAME, txt)
+	#define error(txt...) __android_log_print(ANDROID_LOG_ERROR, APP_NAME, txt)
+#else
+	#define info(txt...) printf("INFO:\t"); printf(txt)
+	#define debug(txt...) printf("DEBUG:\t"); printf(txt)
+	#define warn(txt...) printf("WARN:\t"); printf(txt)
+	#define error(txt...) fprintf(stderr, "ERROR:\t"); fprintf(stderr, txt)
 #endif
 
 #endif // CONFIG_H
